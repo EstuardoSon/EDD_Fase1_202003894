@@ -31,10 +31,10 @@ class Arbol{
         else{
             nuevo.padre = padre
             if(nuevo.objeto.id > padre.objeto.id){
-                padre.derecha = this.insertarAux(objeto,padre.derecha);
+                padre.derecha = this.insertarAux(nuevo,padre.derecha);
             }
             else if(nuevo.objeto.id < padre.objeto.id){
-                padre.izquierda = this.insertarAux(objeto,padre.izquierda);
+                padre.izquierda = this.insertarAux(nuevo,padre.izquierda);
             }
             return padre;
         }
