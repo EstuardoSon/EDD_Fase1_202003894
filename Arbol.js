@@ -1,7 +1,7 @@
 /*Arbol Binario para */
 
 class nodoArbol{
-    constructor(objeto){
+    constructor(id, usuario, correo, direccion, telefono){
         this.objeto = new Proveedor(id, usuario, correo, direccion, telefono);
         this.padre = null;
         this.izquierda = null;
@@ -14,8 +14,8 @@ class Arbol{
         this.raiz = null; 
     }
 
-    insertar(datos){
-        let nuevo = new nodoArbol(datos);
+    insertar(id, usuario, correo, direccion, telefono){
+        let nuevo = new nodoArbol(id, usuario, correo, direccion, telefono);
         if (this.raiz == null){
             raiz = nuevo;
         }
