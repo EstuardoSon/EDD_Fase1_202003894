@@ -1,18 +1,8 @@
-class Vendedor{
-    constructor(id){
-        this.id = id
-    }
-    
-    verDatos(){
-        return this.id;
-    }
-}
-
 /*Arbol Binario para */
 
 class nodoArbol{
     constructor(objeto){
-        this.objeto = new Vendedor(objeto);
+        this.objeto = new Proveedor(id, usuario, correo, direccion, telefono);
         this.padre = null;
         this.izquierda = null;
         this.derecha = null;
@@ -54,7 +44,22 @@ class arbol{
         if (dato==this.raiz.objeto.id){
             return this.raiz.objeto.verDatos();
         }else{
+            this.buscarAux(dato, this.raiz);
+        }
+    }
 
+    buscarAux(dato, nodo){
+        if (dato > nodo.objeto.id){
+            return this.buscar(dato, nodo.derecha);
+        }
+        else if (dato < nodo.objeto.id){
+            return this.buscar(dato, nodo.derecha);
+        }
+        else if (dato == nodo.objeto.id){
+            return nodo.objeto.verDatos();
+        }
+        else{
+            return "No se encontro ninguna conincidencia";
         }
     }
 }

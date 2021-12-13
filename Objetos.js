@@ -37,10 +37,16 @@ class Cliente extends Persona{
 }
 
 class Proveedor extends Persona{
-    constructor(id, usuario, correo, password, edad){
+    constructor(id, usuario, correo, direccion, telefono){
         super(id, usuario, correo);
-        this.password = password;
-        this.edad = edad;
-        this.listaClientes = new ListaDoble();
+        this.direccion = direccion;
+        this.telefono = telefono
+    }
+
+    verDatos(){
+        return this.id+" "+this.usuario+" "+this.correo+" "+this.direccion+" "+this.telefono;
     }
 }
+
+let prov1 = new Proveedor(1,"Laura","asdf@gmail.com","San Cristobal",3413412341);
+console.log(prov1.verDatos());
