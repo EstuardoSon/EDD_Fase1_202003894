@@ -14,7 +14,7 @@
     <div id="grafica"></div>
     <script type="text/javascript">
         var container = document.getElementById("grafica");
-        var DOTstring = arbol.graficar();
+        var DOTstring = arbol.graficar(arbol.raiz);
         var parsedData = vis.parseDOTNetwork(DOTstring);
         var data = {
             nodes: parsedData.nodes,

@@ -82,7 +82,7 @@ class Arbol{
     }
 }
 
-let arbol = Arbol();
+let arbol = new Arbol();
 arbol.insertar(1,"Estuardo","asdf@gmail.com","San Miguel Petapa",3413412341);
 arbol.insertar(4,"Angel","asdf@gmail.com","San Miguel Petapa",3413412341);
 arbol.insertar(16,"Diego","asdf@gmail.com","San Miguel Petapa",3413412341);
