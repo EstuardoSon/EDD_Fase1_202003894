@@ -47,6 +47,3 @@ class Proveedor extends Persona{
         return this.id+" "+this.usuario+" "+this.correo+" "+this.direccion+" "+this.telefono;
     }
 }
-
-let prov1 = new Proveedor(1,"Laura","asdf@gmail.com","San Cristobal",3413412341);
-console.log(prov1.verDatos());

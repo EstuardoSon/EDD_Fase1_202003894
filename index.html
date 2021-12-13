@@ -4,11 +4,38 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vis-network.min.js"></script>
     <script src="Objetos.js"></script>
     <script src="Arbol.js"></script>
     <title>Proyecto 1 - EDD</title>
 </head>
 <body>
     <h1>Amosnos si se puede</h1>
+    <div id="grafica"></div>
+    <script type="text/javascript">
+        var container = document.getElementById("grafica");
+        var DOTstring = arbol.graficar();
+        var parsedData = vis.parseDOTNetwork(DOTstring);
+        var data = {
+            nodes: parsedData.nodes,
+            edges: parsedData.edges
+        }
+        var options = {
+            nodes: {
+                widthConstraint: 20,
+            },        
+            layout: {
+                hierarchical: {
+                    levelSeparation: 100,
+                    nodeSpacing: 100,
+                    parentCentralization: true,
+                    direction: 'UD',
+                    sortMethod: 'directed',  
+                    shakeTowards: 'roots'                          
+                },
+            },                        
+        };
+        var network = new vis.Network(container, data, options);
+        </script>  
 </body>
 </html>

@@ -9,7 +9,7 @@ class nodoArbol{
     }
 }
 
-class arbol{
+class Arbol{
     constructor(){
         this.raiz = null; 
     }
@@ -62,4 +62,29 @@ class arbol{
             return "No se encontro ninguna conincidencia";
         }
     }
+
+    graficar(nodo){
+        let aux = nodo;
+        let dot = '{';
+
+        if (aux != null){
+            if (aux.izquierda != null){ 
+                dot += aux.objeto.verDatos()+'--'+aux.izquierda.objeto.verDatos()+';';
+            }
+            if (aux.derecha != null){
+                dot += aux.objeto.verDatos()+'--'+aux.derecha.objeto.verDatos()+';';
+            } 
+            this.graficar(aux.izquierda);
+            this.graficar(aux.derecha);
+        }
+
+        dot += '}';
+    }
 }
+
+let arbol = Arbol();
+arbol.insertar(1,"Estuardo","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(4,"Angel","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(16,"Diego","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(3,"Laura","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(2,"Adriana","asdf@gmail.com","San Miguel Petapa",3413412341);
