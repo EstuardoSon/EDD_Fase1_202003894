@@ -17,7 +17,7 @@ class Arbol{
     insertar(id, usuario, correo, direccion, telefono){
         let nuevo = new nodoArbol(id, usuario, correo, direccion, telefono);
         if (this.raiz == null){
-            raiz = nuevo;
+            this.raiz = nuevo;
         }
         else{
             this.insertarAux(nuevo,this.raiz);
