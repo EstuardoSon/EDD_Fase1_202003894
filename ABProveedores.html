@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <title>Proyecto - EDD</title>
-    
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="Objetos.js"></script>
+    <script src="Arbol.js"></script>
+    <title>Proyecto - EDD</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     
         <style>
@@ -16,15 +18,6 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             user-select: none;
-          }
-
-          #fondo {
-            background-image: url("fondoLogin.jpg");
-            background-size: cover;
-            background-size: 100%;
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-attachment: fixed;
           }
     
           @media (min-width: 768px) {
@@ -46,9 +39,13 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
-                    <img src="login.png" style="width: 16px; height: 16px;">
-                  Login
+                <a href="#" class="nav-link text-white" aria-current="page">
+                  Carga Masiva
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link active">
+                    Arbol Binario Proveedores
                 </a>
               </li>
             </ul>
@@ -69,24 +66,36 @@
           </div>
         
           <div class="b-example-divider"></div>
-          <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
-          <div class="form-signin" style="width: 450px; height: 450px; background-color: #000000; border-radius: 20% 20%;">
+          <div class="text-center d-flex justify-content-center" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-            <form class="text-center justify-content-center" style="width: 280px; height: 300px; margin-top: 40px;">
-                <img class="mb-2" src="loginIcono.png" alt="" width="100" height="100" style="background-color: rgb(255, 255, 255); border-radius: 100%;">
-                <h1 class="h3 mb-3 fw-normal" style="color: white;">Ingrese sus Datos</h1>
-                <div class="form-floating">
-                  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                  <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
-                </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
-              </form>
+                <h1>Árbol Binario - Proveedores</h1>
+                <div id="grafica" style="width: 800px; height: 800px;"></div>
+                <script type="text/javascript">
+                    var contenedor = document.getElementById("grafica");
+                    var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
+                    var parsedData = vis.parseDOTNetwork(DOT);
+                    var datos = {
+                        nodes: parsedData.nodes,
+                        edges: parsedData.edges
+                    }
+                    var configuracion = {
+                        nodes: {
+                            widthConstraint: 130,
+                        },        
+                        layout: {
+                            hierarchical: {
+                                levelSeparation: 140,
+                                nodeSpacing: 190,
+                                parentCentralization: true,
+                                direction: 'UD',
+                                sortMethod: 'directed',  
+                                shakeTowards: 'roots'                          
+                            },
+                        },                        
+                    };
+                    var network = new vis.Network(contenedor, datos, configuracion);
+                    </script>  
             </center>
-          </div>
         </div>
     </main>
     <script src="js/bootstrap.bundle.min.js"></script>

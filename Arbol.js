@@ -11,7 +11,8 @@ class nodoArbol{
 
 class Arbol{
     constructor(){
-        this.raiz = null; 
+        this.raiz = null;
+        this.dot=""; 
     }
 
     insertar(id, usuario, correo, direccion, telefono){
@@ -20,21 +21,28 @@ class Arbol{
             this.raiz = nuevo;
         }
         else{
+            console.log(nuevo.objeto.verDatos());
             this.insertarAux(nuevo,this.raiz);
         }
     }
 
     insertarAux(nuevo, padre){
         if (padre==null){
-            return nuevo;
+            padre = nuevo;
+            return padre;
         }
         else{
             nuevo.padre = padre
             if(nuevo.objeto.id > padre.objeto.id){
-                padre.derecha = this.insertarAux(nuevo,padre.derecha);
+                console.log(nuevo.objeto.verDatos());
+                padre.derecha = this.insertarAux(nuevo, padre.derecha);
             }
             else if(nuevo.objeto.id < padre.objeto.id){
-                padre.izquierda = this.insertarAux(nuevo,padre.izquierda);
+                console.log(nuevo.objeto.verDatos());
+                padre.izquierda = this.insertarAux(nuevo, padre.izquierda);
+            }
+            else{
+                console.log("El dato ya existe");
             }
             return padre;
         }
@@ -64,27 +72,25 @@ class Arbol{
     }
 
     graficar(nodo){
-        let aux = nodo;
-        let dot = '{';
-
-        if (aux != null){
-            if (aux.izquierda != null){ 
-                dot += aux.objeto.verDatos()+'--'+aux.izquierda.objeto.verDatos()+';';
+        if (nodo != null){
+            this.dot += nodo.objeto.id+' [label="'+nodo.objeto.id+' '+nodo.objeto.usuario+'"];';
+            if (nodo.izquierda != null){ 
+                this.dot += nodo.objeto.id+'--'+nodo.izquierda.objeto.id+';';
             }
-            if (aux.derecha != null){
-                dot += aux.objeto.verDatos()+'--'+aux.derecha.objeto.verDatos()+';';
+            if (nodo.derecha != null){
+                this.dot += nodo.objeto.id+'--'+nodo.derecha.objeto.id+';';
             } 
-            this.graficar(aux.izquierda);
-            this.graficar(aux.derecha);
+            this.graficar(nodo.izquierda);
+            this.graficar(nodo.derecha);
         }
-
-        dot += '}';
+        return this.dot;
     }
 }
 
 let arbol = new Arbol();
-arbol.insertar(1,"Estuardo","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(2,"Estuardo","asdf@gmail.com","San Miguel Petapa",3413412341);
 arbol.insertar(4,"Angel","asdf@gmail.com","San Miguel Petapa",3413412341);
-arbol.insertar(16,"Diego","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(1,"Diego","asdf@gmail.com","San Miguel Petapa",3413412341);
 arbol.insertar(3,"Laura","asdf@gmail.com","San Miguel Petapa",3413412341);
-arbol.insertar(2,"Adriana","asdf@gmail.com","San Miguel Petapa",3413412341);
+arbol.insertar(6,"Adriana","asdf@gmail.com","San Miguel Petapa",3413412341);
+console.log("{"+arbol.graficar(arbol.raiz)+"}")
