@@ -19,6 +19,15 @@
             -moz-user-select: none;
             user-select: none;
           }
+
+          #fondo {
+            background-image: url("image/fondoLogin.jpg");
+            background-size: cover;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+          }
     
           @media (min-width: 768px) {
             .bd-placeholder-img-lg {
@@ -30,46 +39,37 @@
 </head>
 <body>
     <main>
-        <h1 class="visually-hidden"></h1>
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-              <img src="anemo.png" style="width: 40px; height: 32px;">
+              <img src="image/anemo.png" style="width: 40px; height: 32px;">
               <span class="fs-4">ERP</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
-                <a href="#" class="nav-link text-white" aria-current="page">
+                <a href="#" class="nav-link text-white">
                   Carga Masiva
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link active">
+                <a href="#" class="nav-link active" aria-current="page">
                     Arbol Binario Proveedores
                 </a>
               </li>
             </ul>
             <hr>
             <div class="dropdown">
-              <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>mdo</strong>
+              <a href="index.html" class="d-flex align-items-center text-white text-decoration-none">
+                <strong>Cerrar Sesión</strong>
               </a>
-              <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-              </ul>
             </div>
           </div>
         
           <div class="b-example-divider"></div>
-          <div class="text-center d-flex justify-content-center" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
+          <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-                <h1>Árbol Binario - Proveedores</h1>
-                <div id="grafica" style="width: 800px; height: 800px;"></div>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
+                <div id="grafica" style="width: 800px; height: 700px; background-color: white; border-radius: 20% 20%;"></div>
                 <script type="text/javascript">
                     var contenedor = document.getElementById("grafica");
                     var DOT = "{"+arbol.graficar(arbol.raiz)+"}";

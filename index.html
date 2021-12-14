@@ -19,7 +19,7 @@
           }
 
           #fondo {
-            background-image: url("fondoLogin.jpg");
+            background-image: url("image/fondoLogin.jpg");
             background-size: cover;
             background-size: 100%;
             background-repeat: no-repeat;
@@ -40,37 +40,23 @@
         <h1 class="visually-hidden"></h1>
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
             <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-              <img src="anemo.png" style="width: 40px; height: 32px;">
+              <img src="image/anemo.png" style="width: 40px; height: 32px;">
               <span class="fs-4">ERP</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
                 <a href="#" class="nav-link active" aria-current="page">
-                    <img src="login.png" style="width: 16px; height: 16px;">
+                    <img src="image/login.png" style="width: 16px; height: 16px;">
                   Login
                 </a>
               </li>
               <li>
-                <a href="ABProveedores.html" class="nav-link active">
+                <a href="ABProveedores.html" class="nav-link text-white">
                     Arbol Binario Proveedores
                 </a>
               </li>
             </ul>
-            <hr>
-            <div class="dropdown">
-              <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>mdo</strong>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-              </ul>
-            </div>
           </div>
         
           <div class="b-example-divider"></div>
@@ -78,11 +64,11 @@
           <div class="form-signin" style="width: 450px; height: 450px; background-color: #000000; border-radius: 20% 20%;">
             <center>
             <form class="text-center justify-content-center" style="width: 280px; height: 300px; margin-top: 40px;">
-                <img class="mb-2" src="loginIcono.png" alt="" width="100" height="100" style="background-color: rgb(255, 255, 255); border-radius: 100%;">
-                <h1 class="h3 mb-3 fw-normal" style="color: white;">Ingrese sus Datos</h1>
+                <img class="mb-2" src="image/loginIcono.png" alt="" width="100" height="100" style="background-color: rgb(255, 255, 255); border-radius: 100%;">
+                <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Ingrese sus Datos</strong></h1>
                 <div class="form-floating">
-                  <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                  <label for="floatingInput">Email address</label>
+                  <input type="text" class="form-control" id="floatingInput" placeholder="ID">
+                  <label for="floatingInput">ID</label>
                 </div>
                 <div class="form-floating">
                   <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
