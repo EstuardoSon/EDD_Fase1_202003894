@@ -14,6 +14,7 @@ class Vendedor extends Persona{
         this.password = password;
         this.edad = edad;
         this.listaClientes = new ListaDoble();
+        this.meses = new Array(12);
     }
     
     verDatos(){
@@ -47,3 +48,10 @@ class Proveedor extends Persona{
         return this.id+" "+this.usuario+" "+this.correo+" "+this.direccion+" "+this.telefono;
     }
 }
+
+/*
+class Mes{
+    constructor(){
+        this.calendario = new Matriz();
+    }
+}*/

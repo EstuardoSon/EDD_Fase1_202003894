@@ -8,8 +8,22 @@
     
         <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    
-        <style>
+    <script src="js/circular-json.js"></script>
+    <script src="ArbolAVL.js"></script>
+    <script src="Arbol.js"></script>
+    <script src="ListaDoble.js"></script>
+    <script src="Objetos.js"></script>
+    <script>
+      if(localStorage.length==0){
+        localStorage.setItem("arbol",CircularJSON.stringify(new Arbol()));
+        localStorage.setItem("arbolAVL",CircularJSON.stringify(new ArbolAVL()));
+        localStorage.setItem("UAdmin","Admin");
+        localStorage.setItem("PAdmin","1234");
+      }else{
+        console.log("ya se había ingresado");
+      }
+    </script>
+    <style>
           .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -32,8 +46,8 @@
               font-size: 3.5rem;
             }
           }
-        </style>
-        <link href="css/sidebars.css" rel="stylesheet">
+    </style>
+    <link href="css/sidebars.css" rel="stylesheet">
 </head>
 <body>
     <main>
@@ -51,11 +65,6 @@
                   Login
                 </a>
               </li>
-              <li>
-                <a href="ABProveedores.html" class="nav-link text-white">
-                    Arbol Binario Proveedores
-                </a>
-              </li>
             </ul>
           </div>
         
@@ -67,14 +76,36 @@
                 <img class="mb-2" src="image/loginIcono.png" alt="" width="100" height="100" style="background-color: rgb(255, 255, 255); border-radius: 100%;">
                 <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Ingrese sus Datos</strong></h1>
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="ID">
+                  <input type="text" class="form-control" id="usuario" placeholder="ID">
                   <label for="floatingInput">ID</label>
                 </div>
                 <div class="form-floating">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                  <input type="password" class="form-control" id="contra" placeholder="Password">
                   <label for="floatingPassword">Password</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+                <button id="ingresar" class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+                <script>
+                  let arbol= new ArbolAVL();
+                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
+                    Object.assign(arbol,arbolJson)
+                  document.getElementById("ingresar").addEventListener("click", function ingresar(event){
+                    event.preventDefault();
+                    var usuario = localStorage.getItem("UAdmin");
+                    var contra = localStorage.getItem("PAdmin");
+                    var vUsuario = document.getElementById("usuario").value;
+                    var vContra = document.getElementById("contra").value;
+                    if (usuario==vUsuario && contra==vContra){
+                      window.location="RegistroProveedores.html";
+                    }else if (arbol.buscar(vUsuario, vContra)){
+                      localStorage.setItem("usuarioActual",vUsuario);
+                      localStorage.setItem("contraActual",vContra);
+                      window.location="MatrizEventos.html";
+                    }
+                    else{
+                      alert("ID o Contraseña Incorrecto");
+                    }
+                  });
+                </script>
               </form>
             </center>
           </div>

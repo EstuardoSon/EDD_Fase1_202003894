@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="js/circular-json.js"></script>
-    <script src="Objetos.js"></script>
-    <script src="Arbol.js"></script>
+    <script src="Matriz.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -48,23 +47,13 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
-                <a href="RegistroProveedores.html" class="nav-link text-white">
-                  Registro de Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="RegistroVendedores.html" class="nav-link text-white">
-                    Registro de Vendedores
+                <a href="#" class="nav-link text-white">
+                  Registro de Clientes
                 </a>
               </li>
               <li>
                 <a href="#" class="nav-link active" aria-current="page">
-                    Arbol Binario Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="AVLVendedores.html" class="nav-link text-white">
-                    Arbol AVL Usuarios
+                    Calendario de Actividades
                 </a>
               </li>
             </ul>
@@ -79,33 +68,25 @@
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Calendario de Actividades</strong></h1>
                 <div id="grafica" style="width: 800px; height: 700px; background-color: white; border-radius: 20% 20%;"></div>
                 <script type="text/javascript">
-                    let arbol= new Arbol();
-                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
-                    Object.assign(arbol,arbolJson)
+                    //let matriz = new Matriz();
+                    //let matrizJson = CircularJSON.parse(localStorage.getItem("matriz"));
+                    //Object.assign(matriz,matrizJson)
                     var contenedor = document.getElementById("grafica");
-                    var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
+                    var DOT = "{"+matriz.graficar()+"}";
                     var parsedData = vis.parseDOTNetwork(DOT);
                     var datos = {
                         nodes: parsedData.nodes,
                         edges: parsedData.edges
                     }
                     var configuracion = {
-                        nodes: {
-                            widthConstraint: 130,
-                        },        
-                        layout: {
-                            hierarchical: {
-                                levelSeparation: 140,
-                                nodeSpacing: 190,
-                                parentCentralization: true,
-                                direction: 'UD',
-                                sortMethod: 'directed',  
-                                shakeTowards: 'roots'                          
-                            },
-                        },                        
+                        edges:{
+                          smooth: false,
+                        } ,    
+                        layout:{
+                        }  
                     };
                     var network = new vis.Network(contenedor, datos, configuracion);
                     </script>  

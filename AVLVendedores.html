@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="js/circular-json.js"></script>
+    <script src="ListaDoble.js"></script>
     <script src="Objetos.js"></script>
-    <script src="Arbol.js"></script>
+    <script src="ArbolAVL.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -47,26 +48,27 @@
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a href="RegistroProveedores.html" class="nav-link text-white">
-                  Registro de Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="RegistroVendedores.html" class="nav-link text-white">
-                    Registro de Vendedores
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link active" aria-current="page">
-                    Arbol Binario Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="AVLVendedores.html" class="nav-link text-white">
-                    Arbol AVL Usuarios
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a href="RegistroProveedores.html" class="nav-link text-white">
+                      Registro de Proveedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="RegistroVendedores.html" class="nav-link text-white" aria-current="page">
+                        Registro de Vendedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="ABProveedores.html" class="nav-link text-white" aria-current="page">
+                        Arbol Binario Proveedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="nav-link active">
+                        Arbol AVL Usuarios
+                    </a>
+                  </li>
+                </ul>
             </ul>
             <hr>
             <div class="dropdown">
@@ -79,11 +81,11 @@
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol AVL - Vendedores</strong></h1>
                 <div id="grafica" style="width: 800px; height: 700px; background-color: white; border-radius: 20% 20%;"></div>
                 <script type="text/javascript">
-                    let arbol= new Arbol();
-                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
+                    let arbol= new ArbolAVL();
+                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
                     Object.assign(arbol,arbolJson)
                     var contenedor = document.getElementById("grafica");
                     var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
