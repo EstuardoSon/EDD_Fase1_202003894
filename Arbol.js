@@ -2,7 +2,7 @@
 
 class nodoArbol{
     constructor(id, usuario, correo, direccion, telefono){
-        this.objeto = CircularJSON.stringify(new Proveedor(id, usuario, correo, direccion, telefono));
+        this.objeto = new Proveedor(id, usuario, correo, direccion, telefono);
         this.padre = null;
         this.izquierda = null;
         this.derecha = null;
@@ -51,7 +51,7 @@ class Arbol{
         if (dato==this.raiz.objeto.id){
             return this.raiz.objeto.usuario;
         }else{
-            return this.buscarAux(dato, this.raiz);
+            this.buscarAux(dato, this.raiz);
         }
     }
 
@@ -60,14 +60,13 @@ class Arbol{
             return "No se encontro ninguna conincidencia";
         }
         else if (dato > padre.objeto.id){
-            return this.buscarAux(dato, padre.derecha);
+            return this.buscar(dato, padre.derecha);
         }
         else if (dato < padre.objeto.id){
-            return this.buscarAux(dato, padre.izquierda);
+            return this.buscar(dato, padre.izquierda);
         }
         else if (dato == padre.objeto.id){
-            console.log("hola")
-            return padre.objeto.usuario
+            return padre.objeto.usuario;
         }
     }
 

@@ -55,13 +55,3 @@ class ListaDoble{
         } 
     }
 } 
-
-let lista = new ListaDoble();
-lista.insertar(1,"","")
-lista.insertar(5,"","")
-lista.insertar(7,"","")
-lista.insertar(12,"","")
-lista.insertar(5,"","")
-lista.insertar(8,"","")
-lista.insertar(3,"","")
-lista.mostrarLista();
