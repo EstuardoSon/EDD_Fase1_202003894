@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Proyecto - EDD</title>
+    
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="js/circular-json.js"></script>
+        <script src="Objetos.js"></script>
+        <script src="Matriz.js"></script>
+        <script src="ListaDoble.js"></script>
+        <script src="ArbolAVL.js"></script>
+        <style>
+          .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+          }
+
+          #fondo {
+            background-image: url("image/fondoLogin.jpg");
+            background-size: cover;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+          }
+    
+          @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+              font-size: 3.5rem;
+            }
+          }
+        </style>
+        <link href="css/sidebars.css" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <h1 class="visually-hidden"></h1>
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+            <a href="index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+              <img src="image/anemo.png" style="width: 40px; height: 32px;">
+              <span class="fs-4">ERP</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="RegistroDeClientes.html" class="nav-link text-white">
+                      Registro de Clientes
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="IngresarActividad.html" class="nav-link active">
+                      Registro de Actividad
+                    </a>
+                  </li>
+                  <li>
+                    <a href="MatrizEventos.html" class="nav-link text-white" aria-current="page">
+                        Calendario de Actividades
+                    </a>
+                  </li>
+            </ul>
+            <hr>
+            <div class="dropdown">
+              <a href="index.html" class="d-flex align-items-center text-white text-decoration-none">
+                <strong>Cerrar Sesión</strong>
+              </a>
+            </div>
+          </div>
+        
+          <div class="b-example-divider"></div>
+          <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
+          <div class="form-signin" style="width: 450px; height: 650px; background-color: #000000; border-radius: 20% 20%;">
+            <center>
+                <form class="text-center justify-content-center" style="width: 280px; height: 380px; margin-top: 40px;">
+                    <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro de Actividad</strong></h1>
+                    <div class="form-floating">
+                      <input type="number" class="form-control" id="mes" placeholder="Numero de Mes" required>
+                      <label for="floatingInput">Mes</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="dia" placeholder="Numero de Dia" required>
+                        <label for="floatingInput">Dia</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="number" class="form-control" id="hora" placeholder="Hora en punto" required>
+                        <label for="floatingInput">Hora</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="text" class="form-control" id="desc" placeholder="Descripcion" required>
+                        <label for="floatingInput">Descripcion</label>
+                      </div>
+                    <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar</button>
+                    <script>
+                        let arbol= new ArbolAVL();
+                        let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
+                        Object.assign(arbol,arbolJson)
+    
+                        let actualVendedor= new Vendedor();
+                        let actualVendedorJson = CircularJSON.parse(localStorage.getItem("actualVendedor"));
+                        Object.assign(actualVendedor,actualVendedorJson)
+                        
+                            
+                        document.getElementById("ingresar").addEventListener("click", function ingresar(event){
+                            if (document.getElementById("mes").value !="" && document.getElementById("dia").value !="" && document.getElementById("hora").value !="" && document.getElementById("desc").value !=""){
+                                try {
+                                    let mes = actualVendedor.meses[parseInt(document.getElementById("mes").value) -1].calendario;
+                                    let mesAux = new Matriz();
+                                    Object.assign(mesAux,mes);
+                                    mesAux.insertar(parseInt(document.getElementById("dia").value,10),parseInt(document.getElementById("hora").value,10),document.getElementById("desc").value);
+                                    actualVendedor.meses[parseInt(document.getElementById("mes").value)-1].calendario = mesAux;
+                                    arbol.buscarActualizarMasivo(actualVendedor);
+                                    localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
+                                    localStorage.setItem("actualVendedor", CircularJSON.stringify(actualVendedor)); 
+                                    alert("Actividad Cargada");
+                                    event.preventDefault();
+                                } catch (error) {
+                                    console.log(error)
+                                    alert("Ocurrio un error")
+                                }
+                            }
+                        });
+                  </script>
+              </form>
+            </center>
+          </div>
+        </div>
+    </main>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/sidebars.js"></script>
+</body>
+</html>

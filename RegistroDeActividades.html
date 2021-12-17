@@ -144,14 +144,12 @@
                                 Object.assign(actualVendedor,arbol.buscarVendedor(item.id));
 
                                 for (evento of item.eventos){
-                                    let algo=evento.mes-1
-                                    console.log(algo)
                                     let mes = actualVendedor.meses[evento.mes -1].calendario;
                                     console.log(mes)
                                     let mesAux = new Matriz();
                                     Object.assign(mesAux,mes);
                                     mesAux.insertar(evento.dia,evento.hora,evento.desc);
-                                    actualVendedor.meses[evento.mes] = mesAux;
+                                    actualVendedor.meses[evento.mes-1].calendario = mesAux;
                                 }
                                 arbol.buscarActualizarMasivo(actualVendedor);
                                 localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 

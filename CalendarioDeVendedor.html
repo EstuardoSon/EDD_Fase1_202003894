@@ -122,7 +122,7 @@
                          
                         let actualVendedor = new Vendedor();
                         Object.assign(actualVendedor,arbol.buscarVendedor(parseInt(document.getElementById("id").value,10)));
-                        let mes = actualVendedor.meses[parseInt(document.getElementById("mes").value,10) -1].calendario;
+                        let mes = actualVendedor.meses[parseInt(document.getElementById("mes").value,10)-1].calendario;
                         console.log(mes)
                         let mesAux = new Matriz();
                         Object.assign(mesAux,mes);
