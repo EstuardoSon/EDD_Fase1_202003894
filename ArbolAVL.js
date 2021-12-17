@@ -31,7 +31,6 @@ class ArbolAVL{
         }
         else{
             if(padre.objeto.id > nuevo.objeto.id){
-
                 padre.izquierda = this.insertarAux(padre.izquierda,nuevo);
                 let balance = this.calcularfactorBalance(padre.derecha)-this.calcularfactorBalance(padre.izquierda);
                 
@@ -86,7 +85,7 @@ class ArbolAVL{
         console.log("aux")
         console.log(aux)
         padre.izquierda= aux.derecha;
-        console.log("padreIzquieeda")
+        console.log("padreIzquierda")
         console.log(padre.izquierda)
         aux.derecha = padre;
         console.log("padreDerecha")
@@ -121,7 +120,8 @@ class ArbolAVL{
     
     
     buscar(dato, password){
-        if (dato==this.raiz.objeto.id){
+        if (dato==this.raiz.objeto.id && password == this.raiz.objeto.password){
+            localStorage.setItem("actualVendedor", CircularJSON.stringify(this.raiz.objeto));
             return this.raiz.objeto.usuario;
         }else{
             return this.buscarAux(dato, this.raiz, password);
@@ -129,18 +129,76 @@ class ArbolAVL{
     }
 
     buscarAux(dato, padre, password){
+        
+        console.log(dato)
         if (padre==null){
             return false;
         }
         else if (dato > padre.objeto.id){
-            return this.buscarAux(dato, padre.derecha);
+            return this.buscarAux(dato, padre.derecha, password);
         }
         else if (dato < padre.objeto.id){
-            return this.buscarAux(dato, padre.izquierda);
+            return this.buscarAux(dato, padre.izquierda, password);
         }
         else if (dato == padre.objeto.id && password == padre.objeto.password){
-            localStorage.setItem("actualVendedor", padre.objeto);
+            localStorage.setItem("actualVendedor", CircularJSON.stringify(padre.objeto));
             return true
+        }
+    }
+
+    buscarActualizar(vendedor){
+        let dato = localStorage.getItem("usuarioActual");
+        if (dato==this.raiz.objeto.id){
+            this.raiz.objeto = vendedor
+        }else{
+            this.buscarActualizarAux(vendedor, this.raiz, dato);
+        }
+    }
+
+    buscarActualizarMasivo(vendedor){
+        let dato = vendedor.id;
+        if (dato==this.raiz.objeto.id){
+            this.raiz.objeto = vendedor
+        }else{
+            this.buscarActualizarAux(vendedor, this.raiz, dato);
+        }
+    }
+
+    buscarActualizarAux(vendedor, padre, dato){
+        if (padre==null){
+            console.log("No se actualizaron los datos");
+        }
+        else if (dato > padre.objeto.id){
+            this.buscarActualizarAux(vendedor, padre.derecha, dato);
+        }
+        else if (dato < padre.objeto.id){
+            this.buscarActualizarAux(vendedor, padre.izquierda, dato);
+        }
+        else if (dato == padre.objeto.id){
+            padre.objeto = vendedor
+        }
+    }
+
+    buscarVendedor(dato){
+        if (dato==this.raiz.objeto.id){
+            return this.raiz.objeto;
+        }else{
+            return this.buscarVendedorAux(dato, this.raiz);
+        }
+    }
+
+    buscarVendedorAux(dato, padre){
+        if (padre==null){
+            return null;
+        }
+        else if (dato > padre.objeto.id){
+            return this.buscarVendedorAux(dato, padre.derecha);
+        }
+        else if (dato < padre.objeto.id){
+            return this.buscarVendedorAux(dato, padre.izquierda);
+        }
+        else if (dato == padre.objeto.id){
+            return padre.objeto;
         }
     }
 

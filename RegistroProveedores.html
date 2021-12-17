@@ -10,6 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="js/circular-json.js"></script>
         <script src="Objetos.js"></script>
+        <script src="Matriz.js"></script>
         <script src="Arbol.js"></script>
         <style>
           .bd-placeholder-img {
@@ -58,6 +59,21 @@
                 </a>
               </li>
               <li>
+                <a href="RegistroDeActividades.html" class="nav-link text-white">
+                  Carga Masiva De Clientes Y Actividades
+                </a>
+              </li>
+              <li>
+                <a href="CalendarioDeVendedor.html" class="nav-link text-white">
+                    Consulta Calendario Vendedor
+                </a>
+              </li>
+              <li>
+                <a href="ClientesVendedor.html" class="nav-link text-white">
+                    Clientes Vendedor
+                </a>
+              </li>
+              <li>
                 <a href="ABProveedores.html" class="nav-link text-white">
                     Arbol Binario Proveedores
                 </a>
@@ -78,9 +94,9 @@
         
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
-          <div class="form-signin" style="width: 450px; height: 550px; background-color: #000000; border-radius: 20% 20%;">
+          <div class="form-signin" style="width: 450px; height: 650px; background-color: #000000; border-radius: 20% 20%;">
             <center>
-            <form class="text-center justify-content-center" style="width: 280px; height: 380px; margin-top: 40px;">
+            <form class="text-center justify-content-center" style="width: 280px; height: 450px; margin-top: 40px;">
                 <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro Proveedor</strong></h1>
                 <div class="form-floating">
                   <input type="number" class="form-control" id="id" placeholder="ID" required>
@@ -104,7 +120,8 @@
                   </div>
                   <br>
                 <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar</button>
-                <input type="file" class="w-100 btn btn-danger mb-3" name="file" id="carga" style="color: white;">
+                <input type="file" class="w-100 btn btn-success mb-3" name="file" id="carga" style="color: white;">
+                <button class="w-100 btn btn-lg btn-danger mb-3" id="eliminar" type="submit">Eliminar Proveedor</button>
                 <script>
                     let arbol= new Arbol();
                     let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
@@ -121,7 +138,7 @@
                     document.getElementById("ingresar").addEventListener("click", function ingresar(event){
                         if (document.getElementById("id").value !="" && document.getElementById("usuario").value !="" && document.getElementById("direc").value !="" && document.getElementById("tel").value !="" && document.getElementById("correo").value !="" && validarCorreo(document.getElementById("correo").value)==true){
                             try {
-                                arbol.insertar(document.getElementById("id").value, document.getElementById("usuario").value, document.getElementById("direc").value, document.getElementById("tel").value, document.getElementById("correo").value);
+                                arbol.insertar(parseInt(document.getElementById("id").value,10), document.getElementById("usuario").value, document.getElementById("direc").value, document.getElementById("tel").value, document.getElementById("correo").value);
                                 localStorage.setItem("arbol", CircularJSON.stringify(arbol)); 
                                 alert("Proveedor Cargado");
                             } catch (error) {
@@ -142,6 +159,19 @@
                               alert("Fin de la carga")
                         }
                         archivo.readAsText(this.files[0]);
+                    });
+
+                    document.getElementById("eliminar").addEventListener("click", function (event){
+                        if (document.getElementById("id").value !=""){
+                            try {
+                                arbol.buscarE(parseInt(document.getElementById("id").value,10));
+                                localStorage.setItem("arbol", CircularJSON.stringify(arbol)); 
+                                alert("Proveedor eliminado");
+                            } catch (error) {
+                                console.log(error)
+                                alert("Ocurrio un error")
+                            }
+                        }
                     });
                   </script>
               </form>

@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="js/circular-json.js"></script>
-    <script src="Objetos.js"></script>
-    <script src="ListaDoble.js"></script>
-    <script src="ArbolAVL.js"></script>
     <script src="Matriz.js"></script>
+    <script src="Objetos.js"></script>
+    <script src="ArbolAVL.js"></script>
+    <script src="ListaDoble.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,16 +49,41 @@
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a href="RegistroDeClientes.html" class="nav-link text-white">
-                  Registro de Clientes
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link active" aria-current="page">
-                    Calendario de Actividades
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a href="RegistroProveedores.html" class="nav-link text-white" aria-current="page">
+                      Registro de Proveedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="RegistroVendedores.html" class="nav-link text-white">
+                        Registro de Vendedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="RegistroDeActividades.html" class="nav-link text-white">
+                        Carga Masiva De Clientes Y Actividades
+                    </a>
+                  </li>
+                  <li>
+                    <a href="CalendarioDeVendedor.html" class="nav-link active">
+                        Consulta Calendario Vendedor
+                    </a>
+                  </li>
+                  <li>
+                    <a href="ClientesVendedor.html" class="nav-link text-white">
+                        Clientes Vendedor
+                    </a>
+                  </li>
+                  <li>
+                    <a href="ABProveedores.html" class="nav-link text-white">
+                        Arbol Binario Proveedores
+                    </a>
+                  </li>
+                  <li>
+                    <a href="AVLVendedores.html" class="nav-link text-white">
+                        Arbol AVL Usuarios
+                    </a>
+                  </li>
             </ul>
             <hr>
             <div class="dropdown">
@@ -71,9 +96,13 @@
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-              <div class="mb-3">
+                <div class="mb-3">
                 <h1 class="mb-3 text-white" style="background-color: black;"><strong>Calendario de Actividades</strong></h1>
                 <form class="text-center justify-content-center">
+                    <div class="form-floating">
+                      <input type="number" class="form-control" id="id" placeholder="ID" required>
+                      <label for="floatingInput">ID</label>
+                    </div>
                     <div class="form-floating">
                         <input type="number" class="form-control" id="mes" placeholder="Mes" required>
                         <label for="floatingInput">Mes</label>
@@ -85,11 +114,14 @@
                 <div id="grafica" style="width:500px; height: 400px; background-color: white; border-radius: 20% 20%;"></div>
                 <strong><p id="dot" style="background-color: black; color: white;"></p></strong>
                 <script type="text/javascript">
-                      document.getElementById("ingresar").addEventListener("click", function ingresar(event){
+                    let arbol= new ArbolAVL();
+                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
+                    Object.assign(arbol,arbolJson)
+                        document.getElementById("ingresar").addEventListener("click", function ingresar(event){
                         event.preventDefault();
                          
                         let actualVendedor = new Vendedor();
-                        Object.assign(actualVendedor,CircularJSON.parse(localStorage.getItem("actualVendedor")));
+                        Object.assign(actualVendedor,arbol.buscarVendedor(parseInt(document.getElementById("id").value,10)));
                         let mes = actualVendedor.meses[parseInt(document.getElementById("mes").value,10) -1].calendario;
                         console.log(mes)
                         let mesAux = new Matriz();
@@ -112,7 +144,7 @@
                         };
                         var network = new vis.Network(contenedor, datos, configuracion);
                     });
-                    </script> 
+                    </script>  
             </center>
         </div>
     </main>

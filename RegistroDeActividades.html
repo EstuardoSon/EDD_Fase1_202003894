@@ -10,8 +10,8 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="js/circular-json.js"></script>
         <script src="Objetos.js"></script>
-        <script src="ListaDoble.js"></script>
         <script src="Matriz.js"></script>
+        <script src="ListaDoble.js"></script>
         <script src="ArbolAVL.js"></script>
         <style>
           .bd-placeholder-img {
@@ -55,12 +55,12 @@
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link active">
+                <a href="RegistroVendedores.html" class="nav-link text-white">
                     Registro de Vendedores
                 </a>
               </li>
               <li>
-                <a href="RegistroDeActividades.html" class="nav-link text-white">
+                <a href="RegistroDeActividades.html" class="nav-link active">
                     Carga Masiva De Clientes Y Actividades
                 </a>
               </li>
@@ -95,69 +95,69 @@
         
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
-          <div class="form-signin" style="width: 450px; height: 550px; background-color: #000000; border-radius: 20% 20%;">
+          <div class="form-signin" style="width: 450px; height: 650px; background-color: #000000; border-radius: 20% 20%;">
             <center>
-            <form class="text-center justify-content-center" style="width: 280px; height: 380px; margin-top: 40px;">
-                <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro Vendedor</strong></h1>
-                <div class="form-floating">
-                  <input type="number" class="form-control" id="id" placeholder="ID" required>
-                  <label for="floatingInput">ID</label>
-                </div>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="usuario" placeholder="Usuario" required>
-                    <label for="floatingInput">Usuario</label>
-                  </div>
-                  <div class="form-floating">
-                    <input type="email" class="form-control" id="correo" placeholder="correo@gmail.com" required>
-                    <label for="floatingInput">Correo</label>
-                  </div>
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="pass" placeholder="Dirección" required>
-                    <label for="floatingInput">Contraseña</label>
-                  </div>
-                  <div class="form-floating">
-                    <input type="number" class="form-control" id="edad" placeholder="Teléfono" required>
-                    <label for="floatingInput">edad</label>
-                  </div>
-                  <br>
-                <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar</button>
-                <input type="file" class="w-100 btn btn-danger mb-3" name="file" id="carga" style="color: white;">
+            <form class="text-center justify-content-center" style="width: 280px; height: 450px; margin-top: 40px;">
+                <h1 style="color: white;" class="mb-5">Carga Masiva De Clientes Y Actividades</h1>
+                <h3 style="color: white;">Carga de Clientes</h3>
+                <input type="file" class="w-100 btn btn-success mb-3" name="file" id="cargaCliente" style="color: white;">
+                <h3 style="color: white;">Carga de Actividades</h3>
+                <input type="file" class="w-100 btn btn-success mb-3" name="file" id="cargaActividad" style="color: white;">
                 <script>
                     let arbol= new ArbolAVL();
                     let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
                     Object.assign(arbol,arbolJson)
 
-                    function validarCorreo (correo){
-                            re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-                            if(!re.exec(correo)){
-                                return false;
-                            }
-                            else return true;
-                        }
-
-                    document.getElementById("ingresar").addEventListener("click", function ingresar(event){
-                        if (document.getElementById("id").value !="" && document.getElementById("usuario").value !="" && document.getElementById("correo").value !="" && document.getElementById("pass").value !="" && document.getElementById("edad").value !="" && validarCorreo(document.getElementById("correo").value)==true){
-                            try {
-                                arbol.insertar(parseInt(document.getElementById("id").value,10), document.getElementById("usuario").value, document.getElementById("correo").value, document.getElementById("pass").value, document.getElementById("edad").value);
-                                localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol));
-                                alert("Usuario Registrado"); 
-                            } catch (error) {
-                                console.log(error)
-                                alert("Ocurrio un error")
-                            }
-                        }
-                    });
-
-                    document.getElementById("carga").addEventListener("change", function (event){
+                    document.getElementById("cargaCliente").addEventListener("change", function (event){
                         let archivo = new FileReader();
                         archivo.onload = () => {
                             var jsonCarga = CircularJSON.parse(archivo.result);
-                            
-                            for(let i=0; i< jsonCarga["vendedores"].length; i++){
-                                arbol.insertar(jsonCarga["vendedores"][i].id, jsonCarga["vendedores"][i].nombre, jsonCarga["vendedores"][i].correo, jsonCarga["vendedores"][i].password, jsonCarga["vendedores"][i].edad);
-                                localStorage.setItem("arbolAVL",CircularJSON.stringify(arbol)); 
-                            }
-                            alert("Fin de la carga")
+                              for(item of jsonCarga["vendedores"]){
+                                
+                                let actualVendedor = new Vendedor();
+                                Object.assign(actualVendedor,arbol.buscarVendedor(item.id));
+                                
+                                let listaClientes = new ListaDoble();
+                                Object.assign(listaClientes,actualVendedor.listaClientes)
+
+                                for (cliente of item.clientes){
+                                    listaClientes.insertar(cliente.id,cliente.nombre,cliente.correo);
+                                }
+                                actualVendedor.listaClientes = listaClientes;
+                                console.log(actualVendedor.listaClientes)
+                                arbol.buscarActualizarMasivo(actualVendedor);
+                                localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
+                              }
+                              alert("Fin de la carga")
+                              event.preventDefault();
+                        }
+                        archivo.readAsText(this.files[0]);
+                    });
+
+                    document.getElementById("cargaActividad").addEventListener("change", function (event){
+                        let archivo = new FileReader();
+                        archivo.onload = () => {
+                            var jsonCarga = CircularJSON.parse(archivo.result);
+                              for(item of jsonCarga["vendedores"]){
+                                
+                                let actualVendedor = new Vendedor();
+                                Object.assign(actualVendedor,arbol.buscarVendedor(item.id));
+
+                                for (evento of item.eventos){
+                                    let algo=evento.mes-1
+                                    console.log(algo)
+                                    let mes = actualVendedor.meses[evento.mes -1].calendario;
+                                    console.log(mes)
+                                    let mesAux = new Matriz();
+                                    Object.assign(mesAux,mes);
+                                    mesAux.insertar(evento.dia,evento.hora,evento.desc);
+                                    actualVendedor.meses[evento.mes] = mesAux;
+                                }
+                                arbol.buscarActualizarMasivo(actualVendedor);
+                                localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
+                              }
+                              event.preventDefault();
+                              alert("Fin de la carga")
                         }
                         archivo.readAsText(this.files[0]);
                     });

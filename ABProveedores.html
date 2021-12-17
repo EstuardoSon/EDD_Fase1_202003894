@@ -7,6 +7,7 @@
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="js/circular-json.js"></script>
     <script src="Objetos.js"></script>
+    <script src="Matriz.js"></script>
     <script src="Arbol.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
@@ -58,6 +59,21 @@
                 </a>
               </li>
               <li>
+                <a href="RegistroDeActividades.html" class="nav-link text-white">
+                  Carga Masiva De Clientes Y Actividades
+                </a>
+              </li>
+              <li>
+                <a href="CalendarioDeVendedor.html" class="nav-link text-white">
+                    Consulta Calendario Vendedor
+                </a>
+              </li>
+              <li>
+                <a href="ClientesVendedor.html" class="nav-link text-white">
+                    Clientes Vendedor
+                </a>
+              </li>
+              <li>
                 <a href="#" class="nav-link active" aria-current="page">
                     Arbol Binario Proveedores
                 </a>
@@ -81,12 +97,15 @@
             <center>
                 <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
                 <div id="grafica" style="width: 800px; height: 700px; background-color: white; border-radius: 20% 20%;"></div>
+                <strong><p id="dot" style="background-color: black; color: white;"></p></strong>
+
                 <script type="text/javascript">
                     let arbol= new Arbol();
                     let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
                     Object.assign(arbol,arbolJson)
                     var contenedor = document.getElementById("grafica");
                     var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
+                    document.getElementById("dot").innerHTML += DOT;
                     var parsedData = vis.parseDOTNetwork(DOT);
                     var datos = {
                         nodes: parsedData.nodes,

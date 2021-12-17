@@ -11,6 +11,7 @@
     <script src="js/circular-json.js"></script>
     <script src="ArbolAVL.js"></script>
     <script src="Arbol.js"></script>
+    <script src="Matriz.js"></script>
     <script src="Objetos.js"></script>
     <script src="ListaDoble.js"></script>
     <script>
@@ -94,6 +95,8 @@
                     var contra = localStorage.getItem("PAdmin");
                     var vUsuario = document.getElementById("usuario").value;
                     var vContra = document.getElementById("contra").value;
+                    console.log(vUsuario)
+                    console.log(vContra)
                     if (usuario==vUsuario && contra==vContra){
                       window.location="RegistroProveedores.html";
                     }else if (arbol.buscar(vUsuario, vContra)){

@@ -3,7 +3,7 @@
 class nodoArbol{
     constructor(id, usuario, correo, direccion, telefono){
         this.objeto = new Proveedor(id, usuario, correo, direccion, telefono);
-        this.padre = null;
+        this.padre = null
         this.izquierda = null;
         this.derecha = null;
     }
@@ -29,11 +29,11 @@ class Arbol{
     insertarAux(nuevo, padre){
         if (padre==null){
             padre = nuevo;
+            nuevo.padre = padre
             console.log("Se registro el Proveedor"); 
             return padre;
         }
         else{
-            nuevo.padre = padre 
             if(nuevo.objeto.id > padre.objeto.id){
                 padre.derecha = this.insertarAux(nuevo, padre.derecha);
             }
@@ -44,29 +44,6 @@ class Arbol{
                 console.log("El dato ya existe");
             }
             return padre;
-        }
-    }
-
-    buscar(dato){
-        if (dato==this.raiz.objeto.id){
-            return this.raiz.objeto.usuario;
-        }else{
-            this.buscarAux(dato, this.raiz);
-        }
-    }
-
-    buscarAux(dato, padre){
-        if (padre==null){
-            return "No se encontro ninguna conincidencia";
-        }
-        else if (dato > padre.objeto.id){
-            return this.buscar(dato, padre.derecha);
-        }
-        else if (dato < padre.objeto.id){
-            return this.buscar(dato, padre.izquierda);
-        }
-        else if (dato == padre.objeto.id){
-            return padre.objeto.usuario;
         }
     }
 
@@ -84,6 +61,94 @@ class Arbol{
         }
         return this.dot;
     }
+
+    buscarE(dato){
+        if (dato==this.raiz.objeto.id){
+            let masDerecha = this.masDerecha(this.raiz.izquierda); 
+            let masIzquierda = this.masIzquierda(this.raiz.derecha);
+            
+            
+            if(masDerecha == null && masIzquierda ==null){
+                return masDerecha;
+            }
+            else if(masDerecha == null && masIzquierda !=null){
+                masIzquierda.derecha = padre.derecha;
+                masIzquierda.izquierda = padre.izquierda;
+                return masIzquierda;
+            }
+            else{
+                masDerecha.derecha = padre.derecha;
+                masDerecha.izquierda = padre.izquierda;
+                return masDerecha;
+            }
+        }else{
+            this.buscarEAux(dato, this.raiz);
+        }
+    }
+ /*
+    buscarEAux(dato, padre){
+        if (padre==null){
+            console.log("No se encontro ninguna conincidencia");
+            return padre;
+        }
+        else if (dato > padre.objeto.id){
+            padre.derecha = this.buscarEAux(dato, padre.derecha);
+            if (padre.derecha!= null){
+                padre.derecha.padre = padre;
+            }     
+        }
+        else if (dato < padre.objeto.id){
+            padre.izquierda = this.buscarEAux(dato, padre.izquierda);
+            if (padre.izquierda!= null){
+                padre.izquierda.padre = padre;
+            }     
+        }
+        else if (dato == padre.objeto.id){
+            let masDerecha = this.masDerecha(padre.izquierda); 
+            let masIzquierda = this.masIzquierda(padre.derecha);
+            
+            
+            if(masDerecha == null && masIzquierda ==null){
+                return masDerecha;
+            }
+            else if(masIzquierda !=null){
+                return masIzquierda;
+            }
+            else{
+                masDerecha.derecha = padre.derecha;
+                masDerecha.izquierda = padre.izquierda;
+                return masDerecha;
+            }
+        }
+        return padre;
+    }
+
+    masDerecha(nodo){
+        if(nodo == null){
+            return nodo;
+        }
+        else if(nodo.derecha == null){
+            nodo.padre.derecha = nodo.derecha;
+            return nodo;
+        }
+        else{
+            return this.masDerechaAux(nodo);
+        }
+    }
+
+    masIzquierda(nodo){
+        if(nodo.izquierda == null){
+            return nodo;
+        }
+        else if(nodo.izquierda == null){
+            nodo.padre.izquierda = nodo.izquierda;
+            return nodo;
+        }
+        else{
+            return this.masIzquierda(nodo.izquierda);
+        }
+    }
+    */
 }
 //localStorage.clear();
 

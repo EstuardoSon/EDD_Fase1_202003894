@@ -1,3 +1,9 @@
+class Mes{
+    constructor(){
+        this.calendario = new Matriz();
+    }
+}
+
 class Persona{
     constructor(id, usuario, correo){
         this.id = id;
@@ -14,7 +20,7 @@ class Vendedor extends Persona{
         this.password = password;
         this.edad = edad;
         this.listaClientes = new ListaDoble();
-        this.meses = new Array(12);
+        this.meses = [new Mes(), new Mes(), new Mes, new Mes(), new Mes(), new Mes(), new Mes, new Mes(), new Mes(), new Mes(), new Mes, new Mes()];
     }
     
     verDatos(){
@@ -49,9 +55,5 @@ class Proveedor extends Persona{
     }
 }
 
-/*
-class Mes{
-    constructor(){
-        this.calendario = new Matriz();
-    }
-}*/
+
+
