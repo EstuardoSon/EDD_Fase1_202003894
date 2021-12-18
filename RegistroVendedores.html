@@ -95,9 +95,9 @@
         
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
-          <div class="form-signin" style="width: 450px; height: 550px; background-color: #000000; border-radius: 20% 20%;">
+          <div class="form-signin" style="width: 450px; height: 640px; background-color: #000000; border-radius: 20% 20%;">
             <center>
-            <form class="text-center justify-content-center" style="width: 280px; height: 380px; margin-top: 40px;">
+            <form class="text-center justify-content-center" style="width: 280px; height: 440px; margin-top: 40px;">
                 <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro Vendedor</strong></h1>
                 <div class="form-floating">
                   <input type="number" class="form-control" id="id" placeholder="ID" required>
@@ -121,7 +121,8 @@
                   </div>
                   <br>
                 <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar</button>
-                <input type="file" class="w-100 btn btn-danger mb-3" name="file" id="carga" style="color: white;">
+                <input type="file" class="w-100 btn btn-success mb-3" name="file" id="carga" style="color: white;">
+                <button class="w-100 btn btn-lg btn-danger mb-3" id="eliminar" type="submit">Eliminar</button>
                 <script>
                     let arbol= new ArbolAVL();
                     let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
@@ -160,6 +161,19 @@
                             alert("Fin de la carga")
                         }
                         archivo.readAsText(this.files[0]);
+                    });
+
+                    document.getElementById("eliminar").addEventListener("click", function (event){
+                        if (document.getElementById("id").value !=""){
+                            try {
+                                arbol.buscarE(parseInt(document.getElementById("id").value,10));
+                                localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
+                                alert("Vendedor Eliminado");
+                            } catch (error) {
+                                console.log(error)
+                                alert("Ocurrio un error")
+                            }
+                        }
                     });
                   </script>
               </form>

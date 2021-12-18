@@ -104,20 +104,17 @@ class ArbolAVL{
         return aux;
     }
 
-
     rotarIzquierdaaDerecha(padre){
         padre.izquierda = this.rotarDerecha(padre.izquierda);
         let aux = this.rotarIzquierda(padre);
         return aux;
     }
 
-
     rotarDerechaaIzquierda(padre){
         padre.derecha = this.rotarIzquierda(padre.derecha);
         let aux = this.rotarDerecha(padre);
         return aux;
     }
-    
     
     buscar(dato, password){
         if (dato==this.raiz.objeto.id && password == this.raiz.objeto.password){
@@ -202,9 +199,146 @@ class ArbolAVL{
         }
     }
 
+    buscarE(dato){
+        if (dato==this.raiz.objeto.id){
+            let masDerecha = this.masDerecha(this.raiz.izquierda); 
+            console.log(masDerecha);
+            let masIzquierda = this.masIzquierda(this.raiz.derecha);
+            console.log(masIzquierda)
+             
+            if(masDerecha == null && masIzquierda ==null){
+                this.raiz = masDerecha;
+            }
+            else if(masIzquierda !=null){
+                try{
+                    this.raiz.derecha = this.masIzquierdaRomperConexion(this.raiz.derecha,masIzquierda);
+                    if(this.raiz.derecha != null){
+                        masIzquierda.derecha = this.raiz.derecha;
+                    }
+                    masIzquierda.izquierda = this.raiz.izquierda;
+                }catch(e){
+                    console.log(e);
+                }
+                masIzquierda.factorBalance = this.mayor(this.calcularfactorBalance(masIzquierda.izquierda), this.calcularfactorBalance(masIzquierda.derecha)) +1;
+                this.raiz = masIzquierda;
+            }
+            else{
+                try{
+                    this.raiz.izquierda = this.masDerechaRomperConexion(this.raiz.izquierda,masDerecha);
+                    if(this.raiz.izquierda != null){
+                        masDerecha.izquierda = this.raiz.izquierda;
+                    }
+                   masDerecha.derecha = this.raiz.derecha;
+                }catch(e){
+                    console.log(e);
+                }
+                masDerecha.factorBalance = this.mayor(this.calcularfactorBalance(masDerecha.izquierda), this.calcularfactorBalance(masDerecha.derecha)) +1;
+                this.raiz = masDerecha;
+            }
+        }else{
+            this.buscarEAux(dato, this.raiz);
+        }
+    }
+ 
+    buscarEAux(dato, padre){
+        if (padre==null){
+            console.log("No se encontro ninguna conincidencia");
+            return padre;
+        }
+        else if (dato > padre.objeto.id){
+            padre.derecha = this.buscarEAux(dato, padre.derecha);
+        }
+        else if (dato < padre.objeto.id){
+            padre.izquierda = this.buscarEAux(dato, padre.izquierda);
+        }
+        else if (dato == padre.objeto.id){
+            let masDerecha = this.masDerecha(padre.izquierda); 
+            console.log(masDerecha);
+            let masIzquierda = this.masIzquierda(padre.derecha);
+            console.log(masIzquierda)
+            
+            
+            if(masDerecha == null && masIzquierda ==null){
+                return masDerecha;
+            }
+            else if(masIzquierda !=null){
+                try{
+                    padre.derecha = this.masIzquierdaRomperConexion(padre.derecha,masIzquierda);
+                    if (padre.derecha != null){
+                        masIzquierda.derecha = padre.derecha;
+                       }
+                    masIzquierda.izquierda = padre.izquierda;
+                }catch(e){
+                    console.log(e);
+                }
+                masIzquierda.factorBalance = this.mayor(this.calcularfactorBalance(masIzquierda.izquierda), this.calcularfactorBalance(masIzquierda.derecha)) +1;
+                return masIzquierda;
+            }
+            else{
+                try{
+                   padre.izquierda = this.masDerechaRomperConexion(padre.izquierda,masDerecha);
+                   if (padre.izquierda != null){
+                    masDerecha.izquierda = padre.izquierda;
+                   }
+                   masDerecha.derecha = padre.derecha;
+                }catch(e){
+                    console.log(e);
+                }
+                masDerecha.factorBalance = this.mayor(this.calcularfactorBalance(masDerecha.izquierda), this.calcularfactorBalance(masDerecha.derecha)) +1;
+                return masDerecha;
+            }
+        }
+        return padre;
+    }
+
+    masDerecha(nodo){
+        if(nodo == null){
+            return nodo;
+        }
+        else if(nodo.derecha == null){
+            return nodo;
+        }
+        else{
+            return this.masDerecha(nodo.derecha);
+        }
+    }
+
+    masDerechaRomperConexion(padre,nodo){
+        if(padre == nodo){
+            return null
+        }else{
+            padre.derecha = this.masDerechaRomperConexion(padre.derecha,nodo);
+            padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.izquierda), this.calcularfactorBalance(padre.derecha)) +1;
+            return padre
+        }
+    }
+
+    masIzquierda(nodo){
+        if(nodo == null){
+            return nodo;
+        }
+        else if(nodo.izquierda == null){
+            return nodo;
+        }
+        else{
+            return this.masIzquierda(nodo.izquierda);
+        }
+    }
+
+    masIzquierdaRomperConexion(padre,nodo){
+        if(padre == nodo){
+            return null;
+            
+        }else{
+            padre.izquierda = this.masIzquierdaRomperConexion(padre.izquierda,nodo);
+            padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.izquierda), this.calcularfactorBalance(padre.derecha)) +1;
+            return padre;
+        }
+    }
+
     graficar(padre){
         if (padre != null){
-            this.dot += padre.objeto.id+' [label="'+padre.objeto.id+' '+padre.objeto.usuario+' '+padre.objeto.correo+' '+padre.objeto.password+'"];';
+            this.dot += padre.objeto.id+' [label="'+padre.objeto.id+' '+padre.objeto.usuario+' '+padre.objeto.correo+' '+padre.objeto.password+' '+padre.factorBalance+'"];';
 
             if (padre.izquierda != null){ 
                 this.dot += padre.objeto.id+'->'+padre.izquierda.objeto.id+';';

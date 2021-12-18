@@ -3,7 +3,6 @@
 class nodoArbol{
     constructor(id, usuario, correo, direccion, telefono){
         this.objeto = new Proveedor(id, usuario, correo, direccion, telefono);
-        this.padre = null
         this.izquierda = null;
         this.derecha = null;
     }
@@ -29,7 +28,6 @@ class Arbol{
     insertarAux(nuevo, padre){
         if (padre==null){
             padre = nuevo;
-            nuevo.padre = padre
             console.log("Se registro el Proveedor"); 
             return padre;
         }
@@ -65,27 +63,42 @@ class Arbol{
     buscarE(dato){
         if (dato==this.raiz.objeto.id){
             let masDerecha = this.masDerecha(this.raiz.izquierda); 
+            console.log(masDerecha);
             let masIzquierda = this.masIzquierda(this.raiz.derecha);
-            
-            
+            console.log(masIzquierda)
+             
             if(masDerecha == null && masIzquierda ==null){
-                return masDerecha;
+                this.raiz = masDerecha;
             }
-            else if(masDerecha == null && masIzquierda !=null){
-                masIzquierda.derecha = padre.derecha;
-                masIzquierda.izquierda = padre.izquierda;
-                return masIzquierda;
+            else if(masIzquierda !=null){
+                try{
+                    this.raiz.derecha = this.masIzquierdaRomperConexion(this.raiz.derecha,masIzquierda);
+                    if(this.raiz.derecha != null){
+                        masIzquierda.derecha = this.raiz.derecha;
+                    }
+                    masIzquierda.izquierda = this.raiz.izquierda;
+                }catch(e){
+                    console.log(e);
+                }
+                this.raiz = masIzquierda;
             }
             else{
-                masDerecha.derecha = padre.derecha;
-                masDerecha.izquierda = padre.izquierda;
-                return masDerecha;
+                try{
+                    this.raiz.izquierda = this.masDerechaRomperConexion(this.raiz.izquierda,masDerecha);
+                    if(this.raiz.izquierda != null){
+                        masDerecha.izquierda = this.raiz.izquierda;
+                    }
+                   masDerecha.derecha = this.raiz.derecha;
+                }catch(e){
+                    console.log(e);
+                }
+                this.raiz = masDerecha;
             }
         }else{
-            this.buscarEAux(dato, this.raiz);
+            this.raiz = this.buscarEAux(dato, this.raiz);
         }
     }
- /*
+ 
     buscarEAux(dato, padre){
         if (padre==null){
             console.log("No se encontro ninguna conincidencia");
@@ -93,30 +106,38 @@ class Arbol{
         }
         else if (dato > padre.objeto.id){
             padre.derecha = this.buscarEAux(dato, padre.derecha);
-            if (padre.derecha!= null){
-                padre.derecha.padre = padre;
-            }     
         }
         else if (dato < padre.objeto.id){
             padre.izquierda = this.buscarEAux(dato, padre.izquierda);
-            if (padre.izquierda!= null){
-                padre.izquierda.padre = padre;
-            }     
         }
         else if (dato == padre.objeto.id){
             let masDerecha = this.masDerecha(padre.izquierda); 
+            console.log(masDerecha);
             let masIzquierda = this.masIzquierda(padre.derecha);
+            console.log(masIzquierda)
             
             
             if(masDerecha == null && masIzquierda ==null){
                 return masDerecha;
             }
             else if(masIzquierda !=null){
+                try{
+                    padre.derecha = this.masIzquierdaRomperConexion(padre.derecha,masIzquierda);
+                    masIzquierda.derecha = padre.derecha;
+                    masIzquierda.izquierda = padre.izquierda;
+                }catch(e){
+                    console.log(e);
+                }
                 return masIzquierda;
             }
             else{
-                masDerecha.derecha = padre.derecha;
-                masDerecha.izquierda = padre.izquierda;
+                try{
+                   padre.izquierda = this.masDerechaRomperConexion(padre.izquierda,masDerecha);
+                   masDerecha.derecha = padre.derecha;
+                   masDerecha.izquierda = padre.izquierda;
+                }catch(e){
+                    console.log(e);
+                }
                 return masDerecha;
             }
         }
@@ -128,27 +149,45 @@ class Arbol{
             return nodo;
         }
         else if(nodo.derecha == null){
-            nodo.padre.derecha = nodo.derecha;
             return nodo;
         }
         else{
-            return this.masDerechaAux(nodo);
+            return this.masDerecha(nodo.derecha);
+        }
+    }
+
+    masDerechaRomperConexion(padre,nodo){
+        if(padre == nodo){
+            return null
+        }else{
+            padre.derecha = this.masDerechaRomperConexion(padre.derecha,nodo);
+            return padre
         }
     }
 
     masIzquierda(nodo){
-        if(nodo.izquierda == null){
+        if(nodo == null){
             return nodo;
         }
         else if(nodo.izquierda == null){
-            nodo.padre.izquierda = nodo.izquierda;
             return nodo;
         }
         else{
             return this.masIzquierda(nodo.izquierda);
         }
     }
-    */
+
+    masIzquierdaRomperConexion(padre,nodo){
+        if(padre == nodo){
+            return null;
+            
+        }else{
+            padre.izquierda = this.masIzquierdaRomperConexion(padre.izquierda,nodo);
+            return padre;
+        }
+    }
+
+
 }
 //localStorage.clear();
 
