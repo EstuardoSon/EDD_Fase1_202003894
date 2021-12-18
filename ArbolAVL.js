@@ -80,16 +80,9 @@ class ArbolAVL{
     }
 
     rotarIzquierda(padre){
-        console.log(padre)
         let aux = padre.izquierda;
-        console.log("aux")
-        console.log(aux)
         padre.izquierda= aux.derecha;
-        console.log("padreIzquierda")
-        console.log(padre.izquierda)
         aux.derecha = padre;
-        console.log("padreDerecha")
-        console.log(padre.izquierda)
         padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.derecha),this.calcularfactorBalance(padre.izquierda)) + 1;
         aux.factorBalance = this.mayor(this.calcularfactorBalance(aux.derecha),this.calcularfactorBalance(aux.izquierda)) + 1;
         return aux;
@@ -208,6 +201,11 @@ class ArbolAVL{
              
             if(masDerecha == null && masIzquierda ==null){
                 this.raiz = masDerecha;
+                try{
+                    this.raiz = this.buscarPrimerError(this.raiz, this.buscarMasLejano(this.raiz));
+                }catch(e){
+                    console.log(e)
+                }
             }
             else if(masIzquierda !=null){
                 try{
@@ -216,6 +214,11 @@ class ArbolAVL{
                         masIzquierda.derecha = this.raiz.derecha;
                     }
                     masIzquierda.izquierda = this.raiz.izquierda;
+                    try{
+                        this.raiz = this.buscarPrimerError(this.raiz, this.buscarMasLejano(this.raiz));
+                    }catch(e){
+                        console.log(e)
+                    }
                 }catch(e){
                     console.log(e);
                 }
@@ -234,9 +237,14 @@ class ArbolAVL{
                 }
                 masDerecha.factorBalance = this.mayor(this.calcularfactorBalance(masDerecha.izquierda), this.calcularfactorBalance(masDerecha.derecha)) +1;
                 this.raiz = masDerecha;
+                try{
+                    this.raiz = this.buscarPrimerError(this.raiz, this.buscarMasLejano(this.raiz));
+                }catch(e){
+                    console.log(e)
+                }
             }
         }else{
-            this.buscarEAux(dato, this.raiz);
+            this.raiz = this.buscarEAux(dato, this.raiz);
         }
     }
  
@@ -253,10 +261,7 @@ class ArbolAVL{
         }
         else if (dato == padre.objeto.id){
             let masDerecha = this.masDerecha(padre.izquierda); 
-            console.log(masDerecha);
             let masIzquierda = this.masIzquierda(padre.derecha);
-            console.log(masIzquierda)
-            
             
             if(masDerecha == null && masIzquierda ==null){
                 return masDerecha;
@@ -272,6 +277,11 @@ class ArbolAVL{
                     console.log(e);
                 }
                 masIzquierda.factorBalance = this.mayor(this.calcularfactorBalance(masIzquierda.izquierda), this.calcularfactorBalance(masIzquierda.derecha)) +1;
+                try{
+                    masIzquierda = this.buscarPrimerError(masIzquierda, this.buscarMasLejano(masIzquierda));
+                }catch(e){
+                    console.log(e)
+                }
                 return masIzquierda;
             }
             else{
@@ -285,8 +295,20 @@ class ArbolAVL{
                     console.log(e);
                 }
                 masDerecha.factorBalance = this.mayor(this.calcularfactorBalance(masDerecha.izquierda), this.calcularfactorBalance(masDerecha.derecha)) +1;
+                try{
+                    masDerecha = this.buscarPrimerError(masDerecha, this.buscarMasLejano(masDerecha));
+                }catch(e){
+                    console.log(e)
+                }
                 return masDerecha;
             }
+        }
+        padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.izquierda), this.calcularfactorBalance(padre.derecha)) +1;
+        try{
+            padre = this.buscarPrimerError(padre, this.buscarMasLejano(padre));
+            console.log(padre)
+        }catch(e){
+            console.log(e)
         }
         return padre;
     }
@@ -305,11 +327,11 @@ class ArbolAVL{
 
     masDerechaRomperConexion(padre,nodo){
         if(padre == nodo){
-            return null
+            return padre.izquierda;
         }else{
             padre.derecha = this.masDerechaRomperConexion(padre.derecha,nodo);
             padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.izquierda), this.calcularfactorBalance(padre.derecha)) +1;
-            return padre
+            return padre;
         }
     }
 
@@ -327,13 +349,64 @@ class ArbolAVL{
 
     masIzquierdaRomperConexion(padre,nodo){
         if(padre == nodo){
-            return null;
+            return padre.derecha;
             
         }else{
             padre.izquierda = this.masIzquierdaRomperConexion(padre.izquierda,nodo);
             padre.factorBalance = this.mayor(this.calcularfactorBalance(padre.izquierda), this.calcularfactorBalance(padre.derecha)) +1;
             return padre;
         }
+    }
+
+    buscarMasLejano(padre){
+        if(padre.izquierda == null && padre.derecha == null){
+            return padre;
+        }
+        else if (padre.izquierda==null){
+            return this.buscarMasLejano(padre.derecha);
+        }
+        else if (padre.derecha==null){
+            return this.buscarMasLejano(padre.izquierda);
+        }
+        else if (padre.izquierda.factorBalance >= padre.derecha.factorBalance){
+            return this.buscarMasLejano(padre.izquierda);
+        }
+        else{
+            return this.buscarMasLejano(padre.derecha);
+        }
+    }
+
+    buscarPrimerError(padre, masLejano){
+        if (masLejano.objeto.id > padre.objeto.id){
+            if ((this.calcularfactorBalance(padre.derecha) - (this.calcularfactorBalance(padre.izquierda)))==2){
+                if(masLejano.objeto.id > padre.derecha.objeto.id){
+                    padre = this.rotarDerecha(padre);
+                }else{
+                    padre = this.rotarDerechaaIzquierda(padre);
+                }
+            }
+        }
+        if (masLejano.objeto.id < padre.objeto.id){
+            if((this.calcularfactorBalance(padre.derecha) - this.calcularfactorBalance(padre.izquierda))==-2){
+                if(masLejano.objeto.id < padre.izquierda.objeto.id){
+                    console.log("giro")
+                    padre = this.rotarIzquierda(padre);
+                    console.log(padre)
+                }else{
+                    console.log("doble giro")
+                    padre = this.rotarIzquierdaaDerecha(padre);
+                }
+            }
+        }
+        else{
+            if ((this.calcularfactorBalance(padre.derecha) - this.calcularfactorBalance(padre.izquierda))<-2){
+                padre = this.buscarPrimerError(padre.izquierda, masLejano);
+            }
+            else if ((this.calcularfactorBalance(padre.derecha) - this.calcularfactorBalance(padre.izquierda))>2){
+                padre = this.buscarPrimerError(padre.derecha, masLejano);
+            }
+        }
+        return padre;
     }
 
     graficar(padre){

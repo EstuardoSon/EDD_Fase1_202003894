@@ -123,7 +123,9 @@ class Arbol{
             else if(masIzquierda !=null){
                 try{
                     padre.derecha = this.masIzquierdaRomperConexion(padre.derecha,masIzquierda);
-                    masIzquierda.derecha = padre.derecha;
+                    if (padre.derecha != null){
+                        masIzquierda.derecha = padre.derecha;
+                    }
                     masIzquierda.izquierda = padre.izquierda;
                 }catch(e){
                     console.log(e);
@@ -134,7 +136,9 @@ class Arbol{
                 try{
                    padre.izquierda = this.masDerechaRomperConexion(padre.izquierda,masDerecha);
                    masDerecha.derecha = padre.derecha;
-                   masDerecha.izquierda = padre.izquierda;
+                   if (padre.izquierda != null){
+                    masDerecha.izquierda = padre.izquierda;
+                   }
                 }catch(e){
                     console.log(e);
                 }
@@ -158,10 +162,10 @@ class Arbol{
 
     masDerechaRomperConexion(padre,nodo){
         if(padre == nodo){
-            return null
+            return padre.izquierda;
         }else{
             padre.derecha = this.masDerechaRomperConexion(padre.derecha,nodo);
-            return padre
+            return padre;
         }
     }
 
@@ -179,7 +183,7 @@ class Arbol{
 
     masIzquierdaRomperConexion(padre,nodo){
         if(padre == nodo){
-            return null;
+            return padre.derecha;
             
         }else{
             padre.izquierda = this.masIzquierdaRomperConexion(padre.izquierda,nodo);
