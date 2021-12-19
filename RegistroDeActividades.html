@@ -113,20 +113,23 @@
                         archivo.onload = () => {
                             var jsonCarga = CircularJSON.parse(archivo.result);
                               for(item of jsonCarga["vendedores"]){
-                                
-                                let actualVendedor = new Vendedor();
-                                Object.assign(actualVendedor,arbol.buscarVendedor(item.id));
-                                
-                                let listaClientes = new ListaDoble();
-                                Object.assign(listaClientes,actualVendedor.listaClientes)
+                                try{
+                                  let actualVendedor = new Vendedor();
+                                  Object.assign(actualVendedor,arbol.buscarVendedor(item.id));
+                                  
+                                  let listaClientes = new ListaDoble();
+                                  Object.assign(listaClientes,actualVendedor.listaClientes)
 
-                                for (cliente of item.clientes){
-                                    listaClientes.insertar(cliente.id,cliente.nombre,cliente.correo);
+                                  for (cliente of item.clientes){
+                                      listaClientes.insertar(cliente.id,cliente.nombre,cliente.correo);
+                                  }
+                                  actualVendedor.listaClientes = listaClientes;
+                                  console.log(actualVendedor.listaClientes)
+                                  arbol.buscarActualizarMasivo(actualVendedor);
+                                  localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
+                                }catch(e){
+                                  console.log("Error al cargar");
                                 }
-                                actualVendedor.listaClientes = listaClientes;
-                                console.log(actualVendedor.listaClientes)
-                                arbol.buscarActualizarMasivo(actualVendedor);
-                                localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
                               }
                               alert("Fin de la carga")
                               event.preventDefault();
