@@ -153,20 +153,6 @@
                             }
                         }
                     });
-
-                    /*
-                    document.getElementById("carga").addEventListener("change", function (event){
-                        let archivo = new FileReader();
-                        archivo.onload = () => {
-                            var jsonCarga = CircularJSON.parse(archivo.result);
-                              for(let i=0; i< jsonCarga["proveedores"].length; i++){
-                                  actualVendedor.insertar(jsonCarga["proveedores"][i].id, jsonCarga["proveedores"][i].nombre, jsonCarga["proveedores"][i].direccion, jsonCarga["proveedores"][i].telefono, jsonCarga["proveedores"][i].correo);
-                                  localStorage.setItem("actualVendedor",CircularJSON.stringify(actualVendedor)); 
-                              }
-                              alert("Fin de la carga")
-                        }
-                        archivo.readAsText(this.files[0]);
-                    });*/
                   </script>
               </form>
             </center>

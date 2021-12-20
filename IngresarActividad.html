@@ -114,7 +114,7 @@
                                     Object.assign(mesAux,mes);
                                     mesAux.insertar(parseInt(document.getElementById("dia").value,10),parseInt(document.getElementById("hora").value,10),document.getElementById("desc").value);
                                     actualVendedor.meses[parseInt(document.getElementById("mes").value)-1].calendario = mesAux;
-                                    arbol.buscarActualizarMasivo(actualVendedor);
+                                    arbol.buscarActualizar(actualVendedor, parseInt(localStorage.getItem("usuarioActual"),10));
                                     localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
                                     localStorage.setItem("actualVendedor", CircularJSON.stringify(actualVendedor)); 
                                     alert("Actividad Cargada");
