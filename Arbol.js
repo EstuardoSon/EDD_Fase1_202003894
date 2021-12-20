@@ -14,6 +14,7 @@ class Arbol{
         this.dot=""; 
     }
 
+    //Método para insertar datos al Arbol
     insertar(id, usuario, correo, direccion, telefono){
         let nuevo = new nodoArbol(id, usuario, correo, direccion, telefono);
         if (this.raiz == null){
@@ -24,7 +25,8 @@ class Arbol{
            this.raiz = this.insertarAux(nuevo,this.raiz);
         }
     }
-
+    
+    //Método auxiliar para insertar en caso que el arbol ya tenga un nodo
     insertarAux(nuevo, padre){
         if (padre==null){
             padre = nuevo;
@@ -45,6 +47,7 @@ class Arbol{
         }
     }
 
+    //Metodo para la creacion del DOT
     graficar(padre){
         if (padre != null){
             this.dot += padre.objeto.id+' [label="'+padre.objeto.id+' '+padre.objeto.usuario+' '+padre.objeto.correo+'"];';
@@ -60,6 +63,7 @@ class Arbol{
         return this.dot;
     }
 
+    //Metodo de eliminacion en caso que el nodo a eliminar se encuentre en la raiz
     buscarE(dato){
         if (dato==this.raiz.objeto.id){
             let masDerecha = this.masDerecha(this.raiz.izquierda); 
@@ -98,7 +102,8 @@ class Arbol{
             this.raiz = this.buscarEAux(dato, this.raiz);
         }
     }
- 
+
+    //Metodo de eliminacion en caso que el nodo a eliminar no se encuentre en la raiz
     buscarEAux(dato, padre){
         if (padre==null){
             console.log("No se encontro ninguna conincidencia");
@@ -148,6 +153,7 @@ class Arbol{
         return padre;
     }
 
+    //Funcion que retorna el nodo izquierdo mas a la derecha
     masDerecha(nodo){
         if(nodo == null){
             return nodo;
@@ -160,6 +166,7 @@ class Arbol{
         }
     }
 
+    //Metodo que elimina la conexion entre el nodo mas a la derecha y su padre
     masDerechaRomperConexion(padre,nodo){
         if(padre == nodo){
             return padre.izquierda;
@@ -169,6 +176,7 @@ class Arbol{
         }
     }
 
+    //Funcion que retorna el nodo derecho mas a la izquierda
     masIzquierda(nodo){
         if(nodo == null){
             return nodo;
@@ -181,6 +189,7 @@ class Arbol{
         }
     }
 
+    //Metodo que elimina la conexion entre el nodo mas a la izquierda y su padre
     masIzquierdaRomperConexion(padre,nodo){
         if(padre == nodo){
             return padre.derecha;
@@ -191,8 +200,8 @@ class Arbol{
         }
     }
 
-
 }
+
 //localStorage.clear();
 
 /*

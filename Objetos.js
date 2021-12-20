@@ -23,13 +23,9 @@ class Vendedor extends Persona{
         this.meses = [new Mes(), new Mes(), new Mes, new Mes(), new Mes(), new Mes(), new Mes, new Mes(), new Mes(), new Mes(), new Mes, new Mes()];
     }
     
+    //Funcion que retorna los datos el Objeto
     verDatos(){
         return this.id+" "+this.usuario+" "+this.correo+" "+this.password+" "+this.edad+" ";
-    }
-
-    añadirCliente(id, usuario, correo){
-        this.listaClientes.insertarFinal(new Cliente(id, usuario, correo));
-        this.listaClientes.mostrarLista();
     }
 }
 
@@ -38,6 +34,7 @@ class Cliente extends Persona{
         super(id, usuario, correo);
     }     
 
+    //Funcion que retorna los datos del objeto
     verDatos(){
         return this.id+" "+this.usuario+" "+this.correo;
     }
@@ -50,6 +47,7 @@ class Proveedor extends Persona{
         this.telefono = telefono
     }
 
+    //Funcion que retorna los datos del objeto
     verDatos(){
         return this.id+" "+this.usuario+" "+this.correo+" "+this.direccion+" "+this.telefono;
     }

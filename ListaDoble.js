@@ -1,11 +1,4 @@
 /*Lista Doble para Clientes*/
-/*class Cliente{
-    constructor(id, usuario, correo){
-        this.id = id
-        this.usuario = usuario
-        this.correo = correo
-    }
-}*/
 
 class nodo{
     constructor(id, usuario, correo){
@@ -22,6 +15,7 @@ class ListaDoble{
         this.dot = "";
     }
 
+    //Metodo para eliminar un nodo de la lista
     eliminar(id){
         if (this.primero == null){
             console.log("Lista Vacía")
@@ -49,6 +43,7 @@ class ListaDoble{
         }
     }
 
+    //Metodo para insertar un nuevo dato a la lista
     insertar(id, usuario, correo){
         let nuevo = new nodo(id, usuario, correo);
         if (this.primero == null){
@@ -84,6 +79,7 @@ class ListaDoble{
         }
     }
 
+    //Función que retrona un String con formato DOT
     graficar(){
         let aux = this.primero;
         while (aux != null){

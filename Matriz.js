@@ -17,6 +17,7 @@ class listaCabecera{
         this.ultimo = null;
     }
 
+    //Muesta el valor de los nodos en la lista
     mostrarColumna(){
         let aux = this.primero;
         while (aux != null){
@@ -43,6 +44,7 @@ class Matriz{
         this.dot = "";
     }
 
+    //Ingresar un nodo Actividad en Columna
     ingresarEnColumna(dia, hora, desc, columna){
         let nuevo = new nodoActividad(desc, dia, hora);
         let aux = columna.abajo;
@@ -76,6 +78,7 @@ class Matriz{
         }
     }
 
+    //Ingresar un nodo Actividad en Fila
     ingresarEnFila(dia, hora, desc, fila){
         let nuevo = new nodoActividad(desc, dia, hora);
         let aux = fila.derecha;
@@ -109,6 +112,8 @@ class Matriz{
         }
     }
 
+    //Funcion que retorna el nodo ingresado
+    //en la lista de columnas
     ingresarColumna(valor){
         let nuevo = new nodoCabecera(valor);
         if (this.dia.primero == null){
@@ -145,6 +150,8 @@ class Matriz{
         return nuevo;
     }
 
+    //Funcion que retorna el nodo ingresado
+    //en la lista de filas
     ingresarFila(valor){
         let nuevo = new nodoCabecera(valor);
         if (this.hora.primero == null){
@@ -181,6 +188,8 @@ class Matriz{
         return nuevo;
     }
 
+    //Funcion que retonra el nodo de la lista
+    //de columnas
     buscarColumna(valor){
         let aux = this.dia.primero;
         try {
@@ -197,46 +206,8 @@ class Matriz{
         }
     }
 
-    /*
-    eliminar(dia, hora){
-        let aux = this.hora.primero;
-        while (aux != null){
-            if (aux.valor == hora){
-                let aux2 = aux;
-                while (aux2 != null) {
-                    if (aux2.derecha != null && aux2.derecha.dia == dia && aux2.derecha.desc ==) {
-                        aux2.abajo = aux2.abajo.abajo;
-                        aux.longitud -= 1
-                        break;
-                    }
-                    aux2 = aux2.derecha;
-                }
-                break
-            }
-            aux = aux.abajo;
-        }
-
-        aux = this.dia.primero;
-        while (aux != null){
-            if (aux.valor == dia){
-                let aux2 = aux;
-                while (aux2 != null) {
-                    if (aux2.abajo != null && aux2.abajo.hora == hora) {
-                        aux2.abajo = aux2.abajo.abajo;
-                        aux.longitud -= 1
-
-                        if (aux2.derecha != null && aux2.derecha.dia == dia){}
-                        break;
-                    }
-                    aux2 = aux2.abajo;
-                }
-                break;
-            }
-            aux = aux.derecha;
-        }
-    }
-    */
-
+    //Funcion que retorna el nodo de la lista
+    //de filas
     buscarFila(valor){
         let aux = this.hora.primero;
         while (aux != null){
@@ -249,6 +220,7 @@ class Matriz{
         return aux;
     }
 
+    //Metodo para insertar un dato en la matriz
     insertar(dia, hora, desc){
         let comprobarC = this.buscarColumna(dia);
         let comprobarF = this.buscarFila(hora);
@@ -264,6 +236,7 @@ class Matriz{
         }
     }
 
+    //Metodo para imprimir los datos de la matriz
     mostrarDatos(){
         let aux = this.hora.primero;
         while(aux != null){
@@ -276,6 +249,7 @@ class Matriz{
         }
     }
 
+    //Funcion que retorna un String formato DOT
     graficar(){
         let aux = this.dia.primero;
         if(aux!=null){

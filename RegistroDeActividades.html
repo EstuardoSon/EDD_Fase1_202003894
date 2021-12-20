@@ -125,7 +125,7 @@
                                   }
                                   actualVendedor.listaClientes = listaClientes;
                                   console.log(actualVendedor.listaClientes)
-                                  arbol.buscarActualizarMasivo(actualVendedor);
+                                  arbol.buscarActualizar(actualVendedor, actualVendedor.id);
                                   localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
                                 }catch(e){
                                   console.log("Error al cargar");

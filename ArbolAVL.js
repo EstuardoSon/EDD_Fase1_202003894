@@ -14,6 +14,7 @@ class ArbolAVL{
         this.dot="";
     }
 
+    //Metodo de ingreso un nodo al arbol
     insertar(id, usuario, correo, password, edad){
         let nuevo = new nodoArbolAVL(id, usuario, correo, password, edad);
         if (this.raiz == null){
@@ -23,7 +24,8 @@ class ArbolAVL{
             this.raiz=this.insertarAux(this.raiz, nuevo);
         }
     }
-
+    
+    //Función recursiva para insertar un nodo en el arbol
     insertarAux(padre, nuevo){
         if(padre == null){
             padre = nuevo;
@@ -62,6 +64,7 @@ class ArbolAVL{
         }
     }
 
+    //Función para calcular la altura en la que se encuentra un nodo
     calcularfactorBalance(padre){
         if(padre == null){
             return -1;
@@ -70,6 +73,7 @@ class ArbolAVL{
         }
     }
 
+    //Función para retornar el mayor de dos numeros
     mayor(valor1, valor2){
         if(valor1 > valor2){
             return valor1;
@@ -79,6 +83,7 @@ class ArbolAVL{
 
     }
 
+    //Función para mover el nodo izquierdo hacía arriba
     rotarIzquierda(padre){
         let aux = padre.izquierda;
         padre.izquierda= aux.derecha;
@@ -88,6 +93,7 @@ class ArbolAVL{
         return aux;
     }
 
+    //Función para mover el nodo derecho hacía arriba
     rotarDerecha(padre){
         let aux = padre.derecha;
         padre.derecha= aux.izquierda;
@@ -97,18 +103,21 @@ class ArbolAVL{
         return aux;
     }
 
+    //Rotación doble izquierda
     rotarIzquierdaaDerecha(padre){
         padre.izquierda = this.rotarDerecha(padre.izquierda);
         let aux = this.rotarIzquierda(padre);
         return aux;
     }
 
+    //Rotación doble Derecha
     rotarDerechaaIzquierda(padre){
         padre.derecha = this.rotarIzquierda(padre.derecha);
         let aux = this.rotarDerecha(padre);
         return aux;
     }
     
+    //Función buscar que retorna el nombre de usuario de una persona
     buscar(dato, password){
         if (dato==this.raiz.objeto.id && password == this.raiz.objeto.password){
             localStorage.setItem("actualVendedor", CircularJSON.stringify(this.raiz.objeto));
@@ -118,6 +127,8 @@ class ArbolAVL{
         }
     }
 
+    //Función buscar que retorna el nombre usuario de una persona
+    //en caso no sea la raiz
     buscarAux(dato, padre, password){
         
         console.log(dato)
@@ -136,24 +147,16 @@ class ArbolAVL{
         }
     }
 
-    buscarActualizar(vendedor){
-        let dato = localStorage.getItem("usuarioActual");
-        if (dato==this.raiz.objeto.id){
+    //Metodo para remplazar el objeto de la raiz del
+    buscarActualizar(vendedor, id){
+        if (id==this.raiz.objeto.id){
             this.raiz.objeto = vendedor
         }else{
-            this.buscarActualizarAux(vendedor, this.raiz, dato);
+            this.buscarActualizarAux(vendedor, this.raiz, id);
         }
     }
 
-    buscarActualizarMasivo(vendedor){
-        let dato = vendedor.id;
-        if (dato==this.raiz.objeto.id){
-            this.raiz.objeto = vendedor
-        }else{
-            this.buscarActualizarAux(vendedor, this.raiz, dato);
-        }
-    }
-
+    //Metodo auxiliar para actualizar un nodo
     buscarActualizarAux(vendedor, padre, dato){
         if (padre==null){
             console.log("No se actualizaron los datos");
@@ -169,6 +172,7 @@ class ArbolAVL{
         }
     }
 
+    //Funcion que retorna el objeto del nodo raiz
     buscarVendedor(dato){
         if (dato==this.raiz.objeto.id){
             return this.raiz.objeto;
@@ -177,6 +181,8 @@ class ArbolAVL{
         }
     }
 
+    //Funcion que retorna el objeto de un nodo
+    //diferente de la raiz
     buscarVendedorAux(dato, padre){
         if (padre==null){
             return null;
@@ -192,6 +198,7 @@ class ArbolAVL{
         }
     }
 
+    //Metodo para eliminar el nodo raiz
     buscarE(dato){
         if (dato==this.raiz.objeto.id){
             let masDerecha = this.masDerecha(this.raiz.izquierda); 
@@ -247,7 +254,9 @@ class ArbolAVL{
             this.raiz = this.buscarEAux(dato, this.raiz);
         }
     }
- 
+
+    //Metodo para eliminar un nodo diferente
+    //de la raiz
     buscarEAux(dato, padre){
         if (padre==null){
             console.log("No se encontro ninguna conincidencia");
@@ -313,6 +322,8 @@ class ArbolAVL{
         return padre;
     }
 
+    //Funcion que retorna el nodo izquierdo
+    //mas a la derecha
     masDerecha(nodo){
         if(nodo == null){
             return nodo;
@@ -325,6 +336,8 @@ class ArbolAVL{
         }
     }
 
+    //Metodo para romper la conexion entre el
+    //nodo mas a la derecha y su padre
     masDerechaRomperConexion(padre,nodo){
         if(padre == nodo){
             return padre.izquierda;
@@ -335,6 +348,8 @@ class ArbolAVL{
         }
     }
 
+    //Funcion que retorna el nodo derecho
+    //mas a la izquierda
     masIzquierda(nodo){
         if(nodo == null){
             return nodo;
@@ -347,6 +362,8 @@ class ArbolAVL{
         }
     }
 
+    //Metodo para romper la conexion entre el 
+    //nodo mas a la izquierda y su padre
     masIzquierdaRomperConexion(padre,nodo){
         if(padre == nodo){
             return padre.derecha;
@@ -358,6 +375,8 @@ class ArbolAVL{
         }
     }
 
+    //Funcion que retorna el nodo mas lejano al
+    //nodo ingresado
     buscarMasLejano(padre){
         if(padre.izquierda == null && padre.derecha == null){
             return padre;
@@ -376,6 +395,8 @@ class ArbolAVL{
         }
     }
 
+    //Funcion que retorna que realiza el rejuste
+    //Entre el nodo desvalanceado y su más lejano
     buscarPrimerError(padre, masLejano){
         if (masLejano.objeto.id > padre.objeto.id){
             if ((this.calcularfactorBalance(padre.derecha) - (this.calcularfactorBalance(padre.izquierda)))==2){
@@ -409,6 +430,7 @@ class ArbolAVL{
         return padre;
     }
 
+    //Funcion que retorna un String formato DOT
     graficar(padre){
         if (padre != null){
             this.dot += padre.objeto.id+' [label="'+padre.objeto.id+' '+padre.objeto.usuario+' '+padre.objeto.correo+' '+padre.objeto.password+' '+padre.factorBalance+'"];';
