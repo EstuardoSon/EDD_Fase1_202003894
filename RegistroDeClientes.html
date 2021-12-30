@@ -122,7 +122,7 @@
                                 console.log(listaClientes)
                                 actualVendedor.listaClientes = listaClientes;
                                 console.log(actualVendedor.listaClientes)
-                                arbol.buscarActualizar(actualVendedor);
+                                arbol.buscarActualizar(actualVendedor, parseInt(localStorage.getItem("usuarioActual"),10));
                                 localStorage.setItem("arbolAVL", CircularJSON.stringify(arbol)); 
                                 localStorage.setItem("actualVendedor", CircularJSON.stringify(actualVendedor)); 
                                 alert("Cliente Cargado");
