@@ -8,7 +8,7 @@
     <script src="js/circular-json.js"></script>
     <script src="Objetos.js"></script>
     <script src="Matriz.js"></script>
-    <script src="Arbol.js"></script>
+    <script src="ArbolB.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -69,7 +69,7 @@
                 </a>
               </li>
               <li>
-                <a href="VerProductos.html" class="nav-link text-white">
+                <a href="VerProductos.html" class="nav-link active">
                     Arbol B Productos
                 </a>
               </li>
@@ -84,7 +84,7 @@
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="ABProveedores.html" class="nav-link text-white">
                     Arbol Binario Proveedores
                 </a>
               </li>
@@ -105,26 +105,25 @@
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol B - Productos</strong></h1>
                 <div id="grafica" style="width: 500px; height: 500px; background-color: white; border-radius: 20% 20%;"></div>
                 <strong><p id="dot" style="background-color: black; color: white;"></p></strong>
 
                 <script type="text/javascript">
-                    let arbol= new Arbol();
-                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
+                    let arbol= new arbolB();
+                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbolB"));
                     Object.assign(arbol,arbolJson)
                     var contenedor = document.getElementById("grafica");
-                    var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
-                    document.getElementById("dot").innerHTML += DOT;
+                    console.log(arbol.generarDOTviz(arbol.raiz));
+                    var DOT = "{"+arbol.generarDOTviz(arbol.raiz)+"}";
+                    document.getElementById("dot").innerHTML += arbol.graficar();
                     var parsedData = vis.parseDOTNetwork(DOT);
                     var datos = {
                         nodes: parsedData.nodes,
                         edges: parsedData.edges
                     }
                     var configuracion = {
-                        nodes: {
-                            widthConstraint: 130,
-                        },        
+                            
                         layout: {
                             hierarchical: {
                                 levelSeparation: 140,

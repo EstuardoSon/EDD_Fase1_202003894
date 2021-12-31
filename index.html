@@ -13,11 +13,13 @@
     <script src="Arbol.js"></script>
     <script src="Matriz.js"></script>
     <script src="Objetos.js"></script>
+    <script src="ArbolB.js"></script>
     <script src="ListaDoble.js"></script>
     <script>
       if(localStorage.length==0){
         localStorage.setItem("arbol",CircularJSON.stringify(new Arbol()));
         localStorage.setItem("arbolAVL",CircularJSON.stringify(new ArbolAVL()));
+        localStorage.setItem("arbolB",CircularJSON.stringify(new arbolB()));
         localStorage.setItem("UAdmin","Admin");
         localStorage.setItem("PAdmin","1234");
       }else{

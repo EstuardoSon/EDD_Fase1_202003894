@@ -98,8 +98,9 @@ class arbolB{
             }
         }
     }
-    
+
     buscarPagina(nodo, id, nombre, precio, cantidad){
+
         let aux = nodo.lista.primero;
         while(aux!=null){    
             if (aux.producto.id > id && aux.izquierda != null && (aux.anterior == null || aux.anterior.producto.id < id)){
@@ -153,6 +154,101 @@ class arbolB{
         }
     }
 
+    insertarLocalStorage(id, nombre, precio, cantidad){
+        if (this.raiz == null){
+            this.raiz = new Pagina();
+            let listaA = new lista();
+            Object.assign(listaA,this.raiz.lista)
+            listaA.insertarEnPagina(id, nombre, precio, cantidad);
+            this.raiz.lista = listaA;
+        }
+        else if (this.raiz.lista.primero.izquierda == null && this.raiz.lista.primero.derecha == null){
+            let raizAux = new Pagina();
+            Object.assign(raizAux,this.raiz)
+            let listaA = new lista();
+            Object.assign(listaA,raizAux.lista)
+            listaA.insertarEnPagina(id, nombre, precio, cantidad);
+            raizAux.lista = listaA;
+
+            if (this.raiz.lista.longitud == 5){
+                raizAux = this.dividirPagina(raizAux.lista.primero)
+            }
+
+            this.raiz = raizAux;
+        }
+        else{
+            let raizAux = new Pagina();
+            Object.assign(raizAux,this.raiz)
+            let cambio = this.buscarPaginaLocalStorage(raizAux, id, nombre, precio, cantidad)
+
+            if (cambio != null){
+                raizAux = cambio
+            }
+            this.raiz = raizAux
+        }
+    }
+    
+    buscarPaginaLocalStorage(nodo, id, nombre, precio, cantidad){
+        let listaA = new lista();
+        Object.assign(listaA,nodo.lista)
+        let aux = listaA.primero;
+        while(aux!=null){    
+            if (aux.producto.id > id && aux.izquierda != null && (aux.anterior == null || aux.anterior.producto.id < id)){
+                let nodoExtraido = this.buscarPaginaLocalStorage(aux.izquierda, id, nombre, precio, cantidad) 
+                
+                if (nodoExtraido != null){
+                    let mover = listaA.insertarEnPagina(nodoExtraido.lista.primero.producto.id, nodoExtraido.lista.primero.producto.nombre, nodoExtraido.lista.primero.producto.precio, nodoExtraido.lista.primero.producto.cantidad)
+                    mover.izquierda = nodoExtraido.lista.primero.izquierda
+                    mover.derecha = nodoExtraido.lista.primero.derecha
+
+                    try{mover.anterior.derecha = mover.izquierda}catch(e){}
+                    try{mover.siguiente.izquierda = mover.derecha}catch(e){}
+
+                    if (listaA.longitud == 5){
+                        let nodoExtraido = this.dividirPagina(listaA.primero);
+                        nodo.lista = listaA;
+                        return nodoExtraido;
+                    }
+                }
+                nodo.lista = listaA;
+                break;
+            }
+            else if(aux.producto.id < id && aux.derecha != null && (aux.siguiente == null || aux.siguiente.producto.id > id)){
+                let nodoExtraido = this.buscarPaginaLocalStorage(aux.derecha, id, nombre, precio, cantidad)           
+                
+                if (nodoExtraido != null){
+                    let mover = listaA.insertarEnPagina(nodoExtraido.lista.primero.producto.id, nodoExtraido.lista.primero.producto.nombre, nodoExtraido.lista.primero.producto.precio, nodoExtraido.lista.primero.producto.cantidad)
+                    mover.izquierda = nodoExtraido.lista.primero.izquierda
+                    mover.derecha = nodoExtraido.lista.primero.derecha
+
+                    try{mover.anterior.derecha = mover.izquierda}catch(e){}
+                    try{mover.siguiente.izquierda = mover.derecha}catch(e){}
+                    
+
+                    if (listaA.longitud == 5){
+                        let nodoExtraido = this.dividirPagina(listaA.primero);
+                        nodo.lista = listaA;
+                        return nodoExtraido;
+                    }
+                }
+                nodo.lista = listaA;
+                break;
+            }
+            else if(aux.derecha == null && aux.izquierda == null){
+                listaA.insertarEnPagina(id, nombre, precio, cantidad);
+
+                if (listaA.longitud == 5){
+                    let nodoExtraido = this.dividirPagina(listaA.primero);
+                    nodo.lista = listaA;
+                    return nodoExtraido;
+                }
+                nodo.lista = listaA;
+                break;
+            }
+            aux = aux.siguiente
+        }
+    }
+
     dividirPagina(nodo){
         let aux = nodo.siguiente;
         let temp = aux.siguiente;
@@ -174,98 +270,111 @@ class arbolB{
         return raiz;
     }
 
-    
-    graficar(){
-        let cadena="digraph arbolB{\n";
-        cadena+="rankr=TB;\n";
-        cadena+="node[shape = box,fillcolor=\"azure2\" color=\"black\" style=\"filled\"];\n";
-        //metodos para graficar el arbol
-        cadena+= this.graficar_nodos(this.raiz);
-        cadena+=  this.graficar_enlaces(this.raiz);
-        cadena+="}\n"
-
-        return cadena;
-    }
-
-    graficar_nodos(raiz_actual){
-        let cadena="";
-
-        if(raiz_actual.lista.primero.izquierda == null){ //si es un hhoja solo grafica el nodo
-            cadena+="node[shape=record label= \"<p0>"
-            let contador=0;
-            let aux = raiz_actual.lista.primero;
+    generarDOTviz(nodo){
+        let cadena = "";
+        if(nodo!=null){
+            let aux = nodo.lista.primero;
+            let identificador = aux.producto.id
+            cadena+= identificador+'[label="|';
+            let cadenaIzq = "";
+            let cadenaDer = "";
             while(aux!=null){
-                contador++;
-                cadena+="|{"+aux.producto.id+"}|<p"+contador+"> ";
-                aux= aux.siguiente;
-            }
-            cadena+="\"]"+raiz_actual.lista.primero.producto.id+";\n";
-            return cadena;
-        }else{
-            cadena+="node[shape=record label= \"<p0>"
-            let contador=0;
-            let aux = raiz_actual.lista.primero;
-            while(aux!=null){
-                contador++;
-                cadena+="|{"+aux.producto.id+"}|<p"+contador+"> ";
-                aux= aux.siguiente;
-            }
-            cadena+="\"]"+raiz_actual.lista.primero.producto.id+";\n";
+                cadena += aux.producto.id +' '+aux.producto.nombre+' '+aux.producto.precio+'| ';
 
-            //recorrer los hicos de cada clave
-            aux = raiz_actual.lista.primero;
-            while(aux != null){
-                cadena+= this.graficar_nodos(aux.izquierda);
+                if(aux.izquierda != null){
+                    cadenaIzq += identificador+"->"+aux.izquierda.lista.primero.producto.id+";";
+                    cadenaIzq += this.generarDOTviz(aux.izquierda);
+                }
+
+                if(aux.derecha != null){
+                    cadenaDer += identificador+"->"+aux.derecha.lista.primero.producto.id+";";
+                    cadenaDer += this.generarDOTviz(aux.derecha);
+                }
                 aux = aux.siguiente;
             }
-            cadena+= this.graficar_nodos(raiz_actual.lista.ultimo.derecha);
-            return cadena;
+            cadena += '"];';
+            cadena += cadenaIzq + cadenaDer;
+        }
+        return cadena;
+    }
+    
+    graficar(){
+        let dot="{\n";
+        dot+="rankr=TB;\n";
+        dot+="node[shape = box,fillcolor=\"azure2\" color=\"black\" style=\"filled\"];\n";
+        //metodos para graficar el arbol
+        if(this.raiz!=null){
+            dot+= this.graficarNodos(this.raiz);
+            dot+=  this.graficarEnlaces(this.raiz);
+        }
+        dot+="}\n"
+
+        return dot;
+    }
+
+    graficarNodos(nodo){
+        let dot="";
+
+        if(nodo.lista.primero.izquierda == null){
+            dot+="node[shape=record label= \"<p0>"
+            let contador=0;
+            let aux = nodo.lista.primero;
+            while(aux!=null){
+                contador++;
+                dot+="|{"+aux.producto.id+" "+aux.producto.nombre+" "+aux.producto.precio+"}|<p"+contador+"> ";
+                aux= aux.siguiente;
+            }
+            dot+="\"]"+nodo.lista.primero.producto.id+";\n";
+            return dot;
+        }else{
+            dot+="node[shape=record label= \"<p0>"
+            let contador=0;
+            let aux = nodo.lista.primero;
+            while(aux!=null){
+                contador++;
+                dot+="|{"+aux.producto.id+" "+aux.producto.nombre+" "+aux.producto.precio+"}|<p"+contador+"> ";
+                aux= aux.siguiente;
+            }
+            dot+="\"]"+nodo.lista.primero.producto.id+";\n";
+
+            aux = nodo.lista.primero;
+            while(aux != null){
+                dot+= this.graficarNodos(aux.izquierda);
+                aux = aux.siguiente;
+            }
+            dot+= this.graficarNodos(nodo.lista.ultimo.derecha);
+            return dot;
         }   
     }
 
-    graficar_enlaces(raiz_actual){
-        let cadena="";
-        if(raiz_actual.lista.primero.izquierda == null){
-            return ""+raiz_actual.lista.primero.producto.id+";\n";
+    graficarEnlaces(nodo){
+        let dot="";
+        if(nodo.lista.primero.izquierda == null){
+            return ""+nodo.lista.primero.producto.id+";\n";
         }else{
-            //cadena += ""+raiz_actual.lista.primero.producto.id+";\n";
 
-            let aux = raiz_actual.lista.primero;
+            let aux = nodo.lista.primero;
             let contador =0;
-            let raiz_actual_txt = raiz_actual.lista.primero.producto.id;
+            let nodoIdentificador = nodo.lista.primero.producto.id;
             while(aux != null){
-                cadena+= "\n"+raiz_actual_txt+":p"+contador+"->"+this.graficar_enlaces(aux.izquierda);
+                dot+= "\n"+nodoIdentificador+":p"+contador+"->"+this.graficarEnlaces(aux.izquierda);
                 contador++;
                 aux = aux.siguiente;
             }
-            cadena+="\n"+raiz_actual_txt+":p"+contador+"->"+this.graficar_enlaces(raiz_actual.lista.ultimo.derecha);
-            return cadena;
+            dot+="\n"+nodoIdentificador+":p"+contador+"->"+this.graficarEnlaces(nodo.lista.ultimo.derecha);
+            return dot;
         }
     }
 }
 
+/*
 let arbol = new arbolB();
-arbol.insertar(5);
-arbol.insertar(1);
-arbol.insertar(7);
-arbol.insertar(3);
-arbol.insertar(13);
-arbol.insertar(8);
-arbol.insertar(35);
-arbol.insertar(14);
-arbol.insertar(10);
-arbol.insertar(9);
-arbol.insertar(12);
-arbol.insertar(17);
-arbol.insertar(22);
-arbol.insertar(25);
-
-arbol.insertar(100);
-arbol.insertar(150);
-arbol.insertar(220);
-arbol.insertar(325);
-
-
-
-
-console.log(arbol.graficar());
+arbol.insertar(45,"coca",12.4,34);
+arbol.insertar(35,"coca",12.4,34);
+arbol.insertar(2,"coca",12.4,34);
+arbol.insertar(15,"coca",12.4,34);
+arbol.insertar(1,"coca",12.4,34);
+arbol.insertar(56,"coca",12.4,34);
+arbol.insertar(20,"coca",12.4,34);
+arbol.insertar(10,"coca",12.4,34);
+console.log(arbol.graficar());*/
