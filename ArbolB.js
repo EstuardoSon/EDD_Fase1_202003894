@@ -301,8 +301,7 @@ class arbolB{
     graficar(){
         let dot="{\n";
         dot+="rankr=TB;\n";
-        dot+="node[shape = box,fillcolor=\"azure2\" color=\"black\" style=\"filled\"];\n";
-        //metodos para graficar el arbol
+        dot+='node[shape = box,fillcolor="azure2" color="black" style="filled"];\n';
         if(this.raiz!=null){
             dot+= this.graficarNodos(this.raiz);
             dot+=  this.graficarEnlaces(this.raiz);
