@@ -146,7 +146,7 @@ class TablaHash{
         return cadena+enlaces;
     }
 }
-
+/*
 let nuevoT = new TablaHash();
 let lista = new listaProductos();
 lista.insertarProducto(1,"coca",12.5,10);
@@ -164,3 +164,4 @@ nuevoT.ingresar(9,"Estuardo","Laura",new listaProductos());
 nuevoT.ingresar(7,"Estuardo","Laura",new listaProductos());
 nuevoT.ingresar(5,"Estuardo","Laura",lista);
 console.log(nuevoT.imprimir())
+*/

@@ -10,8 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="js/circular-json.js"></script>
         <script src="Objetos.js"></script>
-        <script src="Matriz.js"></script>
-        <script src="Arbol.js"></script>
+        <script src="tablaHash.js"></script>
         <style>
           .bd-placeholder-img {
             font-size: 1.125rem;
@@ -36,6 +35,9 @@
             }
           }
         </style>
+        <script>
+            let lista = new listaProductos();
+        </script>
         <link href="css/sidebars.css" rel="stylesheet">
 </head>
 <body>
@@ -49,7 +51,7 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
               <li class="nav-item">
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="#" class="nav-link text-white" aria-current="page">
                   Registro de Proveedores
                 </a>
               </li>
@@ -69,7 +71,7 @@
                 </a>
               </li>
               <li>
-                <a href="AdminVentas.html"  class="nav-link text-white">
+                <a href="AdminVentas.html" class="nav-link active">
                     Carga de Ventas
                 </a>
               </li>
@@ -112,50 +114,61 @@
           <div class="form-signin" style="width: 450px; height: 650px; background-color: #000000; border-radius: 20% 20%;">
             <center>
             <form class="text-center justify-content-center" style="width: 280px; height: 450px; margin-top: 40px;">
-                <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro Proveedor</strong></h1>
+                <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro de Ventas</strong></h1>
                 <div class="form-floating">
-                  <input type="number" class="form-control" id="id" placeholder="ID" required>
-                  <label for="floatingInput">ID</label>
-                </div>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="usuario" placeholder="Usuario" required>
-                    <label for="floatingInput">Usuario</label>
+                    <input type="text" class="form-control" id="nombreV" placeholder="Nombre Vendedor" required>
+                    <label for="floatingInput">Nombre Vendedor</label>
                   </div>
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="direc" placeholder="Dirección" required>
-                    <label for="floatingInput">Dirección</label>
+                    <input type="text" class="form-control" id="nombreC" placeholder="Nombre Cliente" required>
+                    <label for="floatingInput">Nombre Cliente</label>
                   </div>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="tel" placeholder="Teléfono" required>
-                    <label for="floatingInput">Teléfono</label>
+                    <input type="number" class="form-control" id="idProd" placeholder="ID Producto" required>
+                    <label for="floatingInput">ID Producto</label>
                   </div>
                   <div class="form-floating">
-                    <input type="email" class="form-control" id="correo" placeholder="correo@gmail.com" required>
-                    <label for="floatingInput">Correo</label>
+                    <input type="text" class="form-control" id="nombreP" placeholder="Nombre Producto" required>
+                    <label for="floatingInput">Nombre Producto</label>
                   </div>
-                  <br>
-                <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar</button>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="precio" placeholder="Precio" required>
+                    <label for="floatingInput">Precio</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="cant" placeholder="Cantidad" required>
+                    <label for="floatingInput">Cantidad</label>
+                  </div>
+                  <button class="w-100 btn btn-lg btn-secondary mb-3" id="ingresar2" type="submit">Ingresar producto</button>
+                <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar Venta</button>
                 <input type="file" class="w-100 btn btn-success mb-3" name="file" id="carga" style="color: white;">
-                <button class="w-100 btn btn-lg btn-danger mb-3" id="eliminar" type="submit">Eliminar Proveedor</button>
                 <script>
-                    let arbol= new Arbol();
-                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
-                    Object.assign(arbol,arbolJson)
+                    let tablaH= new TablaHash();
+                    let tablaHJson = CircularJSON.parse(localStorage.getItem("tablaHash"));
+                    Object.assign(tablaH, tablaHJson)
 
-                    function validarCorreo (correo){
-                            re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
-                            if(!re.exec(correo)){
-                                return false;
+                    document.getElementById("ingresar2").addEventListener("click", function ingresar(event){
+                        if (document.getElementById("idProd").value !="" && document.getElementById("nombreP").value !="" && document.getElementById("cant").value !="" && document.getElementById("precio").value !=""){
+                            event.preventDefault();
+                            try {
+                                lista.insertarProducto(parseInt(document.getElementById("idProd").value,10), document.getElementById("nombreP").value, parseFloat(document.getElementById("precio").value), parseFloat(document.getElementById("cant").value));
+                                alert("Producto Cargado");
+                            } catch (error) {
+                                console.log(error)
+                                alert("Ocurrio un error")
                             }
-                            else return true;
                         }
+                    });
 
                     document.getElementById("ingresar").addEventListener("click", function ingresar(event){
-                        if (document.getElementById("id").value !="" && document.getElementById("usuario").value !="" && document.getElementById("direc").value !="" && document.getElementById("tel").value !="" && document.getElementById("correo").value !="" && validarCorreo(document.getElementById("correo").value)==true){
+                        if (document.getElementById("nombreV").value !="" && document.getElementById("nombreC").value !=""){
+                            event.preventDefault();
                             try {
-                                arbol.insertar(parseInt(document.getElementById("id").value,10), document.getElementById("usuario").value, document.getElementById("direc").value, document.getElementById("tel").value, document.getElementById("correo").value);
-                                localStorage.setItem("arbol", CircularJSON.stringify(arbol)); 
-                                alert("Proveedor Cargado");
+                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), document.getElementById("nombreV").value, document.getElementById("nombreC").value, lista);
+                                localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
+                                localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
+                                lista = new listaProductos();
+                                alert("Producto Cargado");
                             } catch (error) {
                                 console.log(error)
                                 alert("Ocurrio un error")
@@ -167,26 +180,13 @@
                         let archivo = new FileReader();
                         archivo.onload = () => {
                             var jsonCarga = CircularJSON.parse(archivo.result);
-                              for(let i=0; i< jsonCarga["proveedores"].length; i++){
-                                  arbol.insertar(jsonCarga["proveedores"][i].id, jsonCarga["proveedores"][i].nombre, jsonCarga["proveedores"][i].direccion, jsonCarga["proveedores"][i].telefono, jsonCarga["proveedores"][i].correo);
-                                  localStorage.setItem("arbol",CircularJSON.stringify(arbol)); 
+                              for(let i=0; i< jsonCarga["productos"].length; i++){
+                                  arbol.insertarLocalStorage(jsonCarga["productos"][i].id, jsonCarga["productos"][i].nombre, jsonCarga["productos"][i].precio, jsonCarga["productos"][i].telefono, jsonCarga["productos"][i].cantidad);
+                                  localStorage.setItem("arbolB",CircularJSON.stringify(arbol)); 
                               }
                               alert("Fin de la carga")
                         }
                         archivo.readAsText(this.files[0]);
-                    });
-
-                    document.getElementById("eliminar").addEventListener("click", function (event){
-                        if (document.getElementById("id").value !=""){
-                            try {
-                                arbol.buscarE(parseInt(document.getElementById("id").value,10));
-                                localStorage.setItem("arbol", CircularJSON.stringify(arbol)); 
-                                alert("Proveedor eliminado");
-                            } catch (error) {
-                                console.log(error)
-                                alert("Ocurrio un error")
-                            }
-                        }
                     });
                   </script>
               </form>
