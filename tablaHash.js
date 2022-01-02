@@ -64,6 +64,7 @@ class TablaHash{
             this.colision(nuevo, hash, 1, this.arreglo);
             this.ocupacion += 1;
         }
+        this.factorOcupacion = this.ocupacion / this.tamañoActual;
     }
 
     colision(nuevo, hashAnt, contador, arreglo){
@@ -122,7 +123,7 @@ class TablaHash{
         let i = 0;
         for(i; i<this.tamañoActual; i++){
             if(this.arreglo[i] != null){
-                cadena += 'node[fillcolor="azure2" label="'+this.arreglo[i].id+' '+this.arreglo[i].vendedor+' '+this.arreglo[i].cliente+' '+this.arreglo[i].total+'"]Hash'+i+';\n';
+                cadena += 'node[fillcolor="orange" label="'+this.arreglo[i].id+' '+this.arreglo[i].vendedor+' '+this.arreglo[i].cliente+' '+this.arreglo[i].total+'"]Hash'+i+';\n';
 
                 let aux = this.arreglo[i].listaProductos.primero;
                 let contador = 0;
@@ -137,7 +138,7 @@ class TablaHash{
                 cadena += 'node[label="Fin"]P'+i+'_'+contador+';\n';
             }
             else{
-                cadena += 'node[fillcolor="azure2" label="Vacio"]Hash'+i+';\n';
+                cadena += 'node[fillcolor="orange" label="Vacio"]Hash'+i+';\n';
             }
             let siguiente = i+1;
             enlaces += 'Hash'+i+'->Hash'+siguiente+';\n';
@@ -145,23 +146,21 @@ class TablaHash{
         cadena += 'node[fillcolor="azure2" label="Tabla Hash tamaño: '+i+'"]Hash'+i+';\n';
         return cadena+enlaces;
     }
+
+    imprimirVentasVendedor(nombre){
+        let cadena = "";
+        let i = 0;
+        for(i; i<this.tamañoActual; i++){
+            if(this.arreglo[i] != null && this.arreglo[i].vendedor == nombre){
+                cadena += 'Informacion de la Venta:\n   ID: '+this.arreglo[i].id+'  Cliente: '+this.arreglo[i].cliente+'  Total: '+this.arreglo[i].total+'\nProductos: \n';
+                
+                let aux = this.arreglo[i].listaProductos.primero;
+                while(aux!=null){
+                    cadena += '     * ID: '+aux.id+' Nombre: '+aux.nombre+' Cant: '+aux.precio+' Cant: '+aux.cantidad+'\n';
+                    aux = aux.siguiente;
+                }
+            }
+        }
+        return cadena;
+    }
 }
-/*
-let nuevoT = new TablaHash();
-let lista = new listaProductos();
-lista.insertarProducto(1,"coca",12.5,10);
-lista.insertarProducto(2,"coca",16.5,1);
-lista.insertarProducto(3,"coca",11.5,2);
-lista.insertarProducto(4,"coca",2.5,5);
-nuevoT.ingresar(1,"Estuardo","Laura",lista);
-nuevoT.ingresar(8,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(9,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(7,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(5,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(1,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(8,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(9,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(7,"Estuardo","Laura",new listaProductos());
-nuevoT.ingresar(5,"Estuardo","Laura",lista);
-console.log(nuevoT.imprimir())
-*/

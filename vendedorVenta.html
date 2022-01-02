@@ -50,61 +50,31 @@
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
-              <li class="nav-item">
-                <a href="#" class="nav-link text-white" aria-current="page">
-                  Registro de Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="RegistroVendedores.html" class="nav-link text-white">
-                    Registro de Vendedores
-                </a>
-              </li>
-              <li>
-                <a href="RegistroDeActividades.html" class="nav-link text-white">
-                  Carga Masiva De Clientes Y Actividades
-                </a>
-              </li>
-              <li>
-                <a href="Productos.html" class="nav-link text-white">
-                    Carga Productos
-                </a>
-              </li>
-              <li>
-                <a href="AdminVentas.html" class="nav-link active">
-                    Carga de Ventas
-                </a>
-              </li>
-              <li>
-                <a href="VerVentas.html"  class="nav-link text-white">
-                    Tabla Hash Ventas
-                </a>
-              </li>
-              <li>
-                <a href="VerProductos.html" class="nav-link text-white">
-                    Arbol B Productos
-                </a>
-              </li>
-              <li>
-                <a href="CalendarioDeVendedor.html" class="nav-link text-white">
-                    Consulta Calendario Vendedor
-                </a>
-              </li>
-              <li>
-                <a href="ClientesVendedor.html" class="nav-link text-white">
-                    Clientes Vendedor
-                </a>
-              </li>
-              <li>
-                <a href="ABProveedores.html" class="nav-link text-white">
-                    Arbol Binario Proveedores
-                </a>
-              </li>
-              <li>
-                <a href="AVLVendedores.html" class="nav-link text-white">
-                    Arbol AVL Usuarios
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a href="RegistroDeClientes.html" class="nav-link text-white">
+                      Registro de Clientes
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="vendedorVenta.html" class="nav-link active">
+                      Registrar Venta
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="IngresarActividad.html" class="nav-link text-white">
+                      Registro de Actividad
+                    </a>
+                  </li>
+                  <li>
+                    <a href="MatrizEventos.html" class="nav-link text-white" aria-current="page">
+                        Calendario de Actividades
+                    </a>
+                  </li>
+                  <li>
+                    <a href="verVentasVendedor.html" class="nav-link text-white">
+                        Ventas Ralizadas
+                    </a>
+                  </li>
             </ul>
             <hr>
             <div class="dropdown">
@@ -120,10 +90,6 @@
             <center>
             <form class="text-center justify-content-center" style="width: 280px; height: 450px; margin-top: 40px;">
                 <h1 class="h3 mb-3 fw-normal" style="color: white;"><strong>Registro de Ventas</strong></h1>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="nombreV" placeholder="Nombre Vendedor" required>
-                    <label for="floatingInput">Nombre Vendedor</label>
-                  </div>
                   <div class="form-floating">
                     <input type="text" class="form-control" id="nombreC" placeholder="Nombre Cliente" required>
                     <label for="floatingInput">Nombre Cliente</label>
@@ -146,7 +112,6 @@
                   </div>
                   <button class="w-100 btn btn-lg btn-secondary mb-3" id="ingresar2" type="submit">Ingresar producto</button>
                 <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Registrar Venta</button>
-                <input type="file" class="w-100 btn btn-success mb-3" name="file" id="carga" style="color: white;">
                 <script>
                     let tablaH= new TablaHash();
                     let tablaHJson = CircularJSON.parse(localStorage.getItem("tablaHash"));
@@ -166,10 +131,10 @@
                     });
 
                     document.getElementById("ingresar").addEventListener("click", function ingresar(event){
-                        if (document.getElementById("nombreV").value !="" && document.getElementById("nombreC").value !=""){
+                        if (document.getElementById("nombreC").value !=""){
                             event.preventDefault();
                             try {
-                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), document.getElementById("nombreV").value, document.getElementById("nombreC").value, lista);
+                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), CircularJSON.parse(localStorage.getItem("actualVendedor")).usuario, document.getElementById("nombreC").value, lista);
                                 localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
                                 localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
                                 lista = new listaProductos();
@@ -179,24 +144,6 @@
                                 alert("Ocurrio un error")
                             }
                         }
-                    });
-
-                    document.getElementById("carga").addEventListener("change", function (event){
-                        let archivo = new FileReader();
-                        archivo.onload = () => {
-                            var jsonCarga = CircularJSON.parse(archivo.result);
-                              for(venta of jsonCarga["ventas"]){
-                                  for(prod of venta.productos){
-                                    lista.insertarProducto(prod.id, prod.nombre, prod.precio, prod.cantidad);
-                                  }
-                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), venta.vendedor, venta.cliente, lista);
-                                lista = new listaProductos();
-                                localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
-                              }
-                              localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
-                              alert("Fin de la carga")
-                        }
-                        archivo.readAsText(this.files[0]);
                     });
                   </script>
               </form>

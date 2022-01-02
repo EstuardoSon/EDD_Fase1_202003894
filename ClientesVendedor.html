@@ -75,6 +75,11 @@
                     </a>
                   </li>
                   <li>
+                    <a href="VerVentas.html"  class="nav-link text-white">
+                        Tabla Hash Ventas
+                    </a>
+                  </li>
+                  <li>
                     <a href="VerProductos.html" class="nav-link text-white">
                         Arbol B Productos
                     </a>
@@ -97,6 +102,11 @@
                   <li>
                     <a href="AVLVendedores.html" class="nav-link text-white">
                         Arbol AVL Usuarios
+                    </a>
+                  </li>
+                  <li>
+                    <a href="AdminVentasVende.html" class="nav-link text-white">
+                        Ventas por Vendedor y Otros
                     </a>
                   </li>
             </ul>
@@ -122,7 +132,7 @@
                 </form>
                 </div>
                 <div id="grafica" style="width:500px; height: 400px; background-color: white; border-radius: 20% 20%;"></div>
-                <strong><p id="dot" style="background-color: black; color: white;"></p></strong>
+                <strong><textarea id="dot" style="background-color: black; color: white; height: 50px; width: 500px;" disabled></textarea></strong>
                 <script type="text/javascript">
                     let arbol= new ArbolAVL();
                     let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));

@@ -16,6 +16,7 @@
     <script src="ArbolB.js"></script>
     <script src="ListaDoble.js"></script>
     <script src="tablaHash.js"></script>
+    <script src="grafo.js"></script>
     <script>
       if(localStorage.length==0){
         localStorage.setItem("arbol",CircularJSON.stringify(new Arbol()));
@@ -24,6 +25,7 @@
         localStorage.setItem("UAdmin","Admin");
         localStorage.setItem("PAdmin","1234");
         localStorage.setItem("tablaHash",CircularJSON.stringify(new TablaHash()));
+        localStorage.setItem("grafo",CircularJSON.stringify(new Grafo()));
         localStorage.setItem("cVentas",0);
       }else{
         console.log("ya se había ingresado");

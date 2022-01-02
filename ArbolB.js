@@ -365,15 +365,3 @@ class arbolB{
         }
     }
 }
-
-/*
-let arbol = new arbolB();
-arbol.insertar(45,"coca",12.4,34);
-arbol.insertar(35,"coca",12.4,34);
-arbol.insertar(2,"coca",12.4,34);
-arbol.insertar(15,"coca",12.4,34);
-arbol.insertar(1,"coca",12.4,34);
-arbol.insertar(56,"coca",12.4,34);
-arbol.insertar(20,"coca",12.4,34);
-arbol.insertar(10,"coca",12.4,34);
-console.log(arbol.graficar());*/

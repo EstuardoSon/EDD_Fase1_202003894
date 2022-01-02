@@ -8,7 +8,7 @@
     <script src="js/circular-json.js"></script>
     <script src="Objetos.js"></script>
     <script src="Matriz.js"></script>
-    <script src="Arbol.js"></script>
+    <script src="tablaHash.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -74,7 +74,7 @@
                 </a>
               </li>
               <li>
-                <a href="VerVentas.html"  class="nav-link text-white">
+                <a href="VerVentas.html"  class="nav-link active">
                     Tabla Hash Ventas
                 </a>
               </li>
@@ -94,13 +94,18 @@
                 </a>
               </li>
               <li>
-                <a href="#" class="nav-link active" aria-current="page">
+                <a href="ABProveedores.html"  class="nav-link text-white" aria-current="page">
                     Arbol Binario Proveedores
                 </a>
               </li>
               <li>
                 <a href="AVLVendedores.html" class="nav-link text-white">
                     Arbol AVL Usuarios
+                </a>
+              </li>
+              <li>
+                <a href="AdminVentasVende.html" class="nav-link text-white">
+                    Ventas por Vendedor y Otros
                 </a>
               </li>
             </ul>
@@ -115,16 +120,16 @@
           <div class="b-example-divider"></div>
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
-                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Árbol Binario - Proveedores</strong></h1>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Tabla Hash - Ventas</strong></h1>
                 <div id="grafica" style="width: 500px; height: 500px; background-color: white; border-radius: 20% 20%;"></div>
                 <strong><textarea id="dot" style="background-color: black; color: white; height: 100px; width: 500px;" disabled></textarea></strong>
 
                 <script type="text/javascript">
-                    let arbol= new Arbol();
-                    let arbolJson = CircularJSON.parse(localStorage.getItem("arbol"));
-                    Object.assign(arbol,arbolJson)
+                    let tablaHash= new TablaHash();
+                    let tablaHashJson = CircularJSON.parse(localStorage.getItem("tablaHash"));
+                    Object.assign(tablaHash,tablaHashJson)
                     var contenedor = document.getElementById("grafica");
-                    var DOT = "{"+arbol.graficar(arbol.raiz)+"}";
+                    var DOT = "{"+tablaHash.imprimir()+"}";
                     document.getElementById("dot").innerHTML += DOT;
                     var parsedData = vis.parseDOTNetwork(DOT);
                     var datos = {
