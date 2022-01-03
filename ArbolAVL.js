@@ -446,6 +446,16 @@ class ArbolAVL{
         }
         return this.dot;
     }
+
+    encriptacion(padre){
+        if (padre != null){
+            this.dot += "ID: "+padre.objeto.id+'\n  -Usuario: '+padre.objeto.usuario+' \n    '+sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(padre.objeto.usuario))+'\n  -Correo: '+padre.objeto.correo+' \n  '+sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(padre.objeto.correo))+'\n   -Contraseña: '+padre.objeto.password+' \n   '+sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(padre.objeto.password))+"\n ";
+
+            this.encriptacion(padre.izquierda);
+            this.encriptacion(padre.derecha);
+        }
+        return this.dot;
+    }
 }
 
 //let arbol= new ArbolAVL();

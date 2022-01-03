@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <script src="js/circular-json.js"></script>
-    <script src="tablaHash.js"></script>
+    <script src="js/sjcl.js"></script>
+    <script src="Objetos.js"></script>
+    <script src="ArbolAVL.js"></script>
     <title>Proyecto - EDD</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -80,26 +82,15 @@
             <center>
                 <div class="mb-3">
                     <h1 class="mb-3 text-white" style="background-color: black;"><strong>Ventas del Vendedor</strong></h1>
-                    <form class="text-center justify-content-center">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre Vendedor" required>
-                            <label for="floatingInput">Nombre Vendedor</label>
-                          </div>
-                          <br>
-                        <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Buscar</button>
-                    </form>
                     </div>
-                    <strong><textarea id="dot" style="background-color: black; color: white; height: 400px; width: 500px;" disabled></textarea></strong>
+                    <strong><textarea id="dot" style="background-color: black; color: white; height: 400px; width: 580px;" disabled></textarea></strong>
                     <script type="text/javascript">
-                          document.getElementById("ingresar").addEventListener("click", function ingresar(event){
-                            event.preventDefault();
-                             
-                            let tablaHash = new TablaHash();
-                            Object.assign(tablaHash, CircularJSON.parse(localStorage.getItem("tablaHash"))); 
-                            document.getElementById("dot").innerHTML = tablaHash.imprimirVentasVendedor(document.getElementById("nombre").value);
-                            
-                        });
-                        </script> 
+                        let arbol= new ArbolAVL();
+                        let arbolJson = CircularJSON.parse(localStorage.getItem("arbolAVL"));
+                        Object.assign(arbol,arbolJson)
+                        var DOT = arbol.encriptacion(arbol.raiz);
+                        document.getElementById("dot").innerHTML = DOT;         
+                    </script> 
             </center>
         </div>
     </main>
