@@ -170,7 +170,7 @@ class arbolB{
             listaA.insertarEnPagina(id, nombre, precio, cantidad);
             raizAux.lista = listaA;
 
-            if (this.raiz.lista.longitud == 5){
+            if (raizAux.lista.longitud == 5){
                 raizAux = this.dividirPagina(raizAux.lista.primero)
             }
 
