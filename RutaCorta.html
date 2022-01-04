@@ -52,12 +52,12 @@
                     </a>
                   </li>
                   <li>
-                    <a href="GrafoRutas.html" class="nav-link active">
+                    <a href="GrafoRutas.html" class="nav-link text-white">
                         Grafo Rutas
                     </a>
                   </li>
                   <li>
-                    <a href="RutaCorta.html" class="nav-link text-white">
+                    <a href="RutaCorta.html" class="nav-link active">
                         Ruta Corta
                     </a>
                   </li>
@@ -84,51 +84,57 @@
           <div class="text-center d-flex justify-content-center" id="fondo" style="width: 100%; min-height: 100%; min-height: 100vh; display: flex; align-items: center;">
             <center>
                 <div class="mb-3" >
-                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Grafo Rutas</strong></h1>
+                <h1 class="mb-3 text-white" style="background-color: black;"><strong>Ruta mas corta</strong></h1>
                 <form class="text-center justify-content-center">
-                    <input type="file" class="w-100 btn btn-success mb-3" name="file" id="cargar" style="color: white;">
+                    <div class="form-floating">
+                      <input type="number" class="form-control" id="id" placeholder="ID Inicio" required>
+                      <label for="floatingInput">ID Incio</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="id2" placeholder="ID Fin" required>
+                        <label for="floatingInput">ID Fin</label>
+                      </div>
+                      <br>
+                    <button class="w-100 btn btn-lg btn-primary mb-3" id="ingresar" type="submit">Buscar</button>
                 </form>
                 </div>
-                <div id="grafica" style="width:500px; height: 400px; background-color: white; border-radius: 20% 20%;"></div>
-                <strong><textarea id="dot" style="background-color: black; color: white; height: 100px; width: 500px;" disabled></textarea></strong>
+                <div id="grafica" style="width:500px; height: 300px; background-color: white; border-radius: 20% 20%;"></div>
+                <strong><textarea id="dot" style="background-color: black; color: white; height: 50px; width: 500px;" disabled></textarea></strong>
                 <script type="text/javascript">
-                    document.getElementById("cargar").addEventListener("change", function (event){
-                        let archivo = new FileReader();
-                        archivo.onload = () => {
-                            let grafo = new Grafo();
-                            var jsonCarga = CircularJSON.parse(archivo.result);
+                    document.getElementById("ingresar").addEventListener("click", function ingresar(event){
+                    if (document.getElementById("id").value != "" && document.getElementById("id2").value){
+                        event.preventDefault();
                             
-                            for(vertice of jsonCarga["rutas"]){
-                                let lista = new ListaRutas();
-                                for(ruta of vertice.adyacentes){
-                                    lista.insertar(ruta.id, ruta.nombre, ruta.distancia);
-                                }
-                                grafo.listaVertices.insertar(vertice.id, vertice.nombre, 0, lista)
-                            }
-                            
-                            localStorage.setItem("grafo", CircularJSON.stringify(grafo));
-                            alert("Fin de la carga")
-                            location.reload();
+                        let grafo= new Grafo();
+                        let grafoJson = CircularJSON.parse(localStorage.getItem("grafo"));
+                        Object.assign(grafo, grafoJson)
+                        var contenedor = document.getElementById("grafica");
+                        var DOT = grafo.costoUniforme(parseInt(document.getElementById("id").value,10), parseInt(document.getElementById("id2").value,10));
+                        document.getElementById("dot").innerHTML = DOT;
+                        var parsedData = vis.parseDOTNetwork(DOT);
+                        var datos = {
+                            nodes: parsedData.nodes,
+                            edges: parsedData.edges
                         }
-                        archivo.readAsText(this.files[0]);
-                    });
-
-                    let grafo= new Grafo();
-                    let grafoJson = CircularJSON.parse(localStorage.getItem("grafo"));
-                    Object.assign(grafo, grafoJson)
-                    var contenedor = document.getElementById("grafica");
-                    var DOT = "{"+grafo.generarDot()+"}";
-                    document.getElementById("dot").innerHTML += DOT;
-                    var parsedData = vis.parseDOTNetwork(DOT);
-                    var datos = {
-                        nodes: parsedData.nodes,
-                        edges: parsedData.edges
-                    }
-                    var configuracion = {                     
+                        var configuracion = {
+                        nodes: {
+                            widthConstraint: 130,
+                        },        
+                        layout: {
+                            hierarchical: {
+                                levelSeparation: 140,
+                                nodeSpacing: 190,
+                                parentCentralization: true,
+                                direction: 'UD',
+                                sortMethod: 'directed',  
+                                shakeTowards: 'roots'                          
+                            },
+                        },                        
                     };
-                    var network = new vis.Network(contenedor, datos, configuracion);
-                    </script> 
-                </script>  
+                        var network = new vis.Network(contenedor, datos, configuracion);
+                    }
+                    });
+                    </script>  
             </center>
         </div>
     </main>
