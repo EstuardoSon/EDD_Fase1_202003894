@@ -106,7 +106,7 @@ class Grafo{
             let aux2 = aux.ruta.adyacentes.primero;
             cadena += aux.ruta.id+'[ label="'+aux.ruta.id+' '+aux.ruta.nombre+'"];\n';
             while(aux2 != null){
-                enlaces += aux.ruta.id+'->'+aux2.ruta.id+'[ label="'+aux2.ruta.distancia+'"];\n';;
+                enlaces += aux.ruta.id+'->'+aux2.ruta.id+'[ label="'+aux2.ruta.distancia+'"];\n';
 
                 aux2 = aux2.siguiente;
             }
