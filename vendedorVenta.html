@@ -134,9 +134,8 @@
                         if (document.getElementById("nombreC").value !=""){
                             event.preventDefault();
                             try {
-                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), CircularJSON.parse(localStorage.getItem("actualVendedor")).usuario, document.getElementById("nombreC").value, lista);
+                                tablaH.ingresar(Math.floor(Math.random() * (tablaH.tamañoActual - 0),10)+0, CircularJSON.parse(localStorage.getItem("actualVendedor")).usuario, document.getElementById("nombreC").value, lista);
                                 localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
-                                localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
                                 lista = new listaProductos();
                                 alert("Venta Cargada");
                             } catch (error) {

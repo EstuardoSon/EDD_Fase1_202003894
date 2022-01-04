@@ -169,9 +169,8 @@
                         if (document.getElementById("nombreV").value !="" && document.getElementById("nombreC").value !=""){
                             event.preventDefault();
                             try {
-                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), document.getElementById("nombreV").value, document.getElementById("nombreC").value, lista);
+                                tablaH.ingresar(Math.floor(Math.random() * (tablaH.tamañoActual - 0),10)+0, document.getElementById("nombreV").value, document.getElementById("nombreC").value, lista);
                                 localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
-                                localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
                                 lista = new listaProductos();
                                 alert("Venta Cargada");
                             } catch (error) {
@@ -189,9 +188,8 @@
                                   for(prod of venta.productos){
                                     lista.insertarProducto(prod.id, prod.nombre, prod.precio, prod.cantidad);
                                   }
-                                tablaH.ingresar(parseInt(localStorage.getItem("cVentas"),10), venta.vendedor, venta.cliente, lista);
+                                tablaH.ingresar(Math.floor(Math.random() * (tablaH.tamañoActual - 0),10)+0, venta.vendedor, venta.cliente, lista);
                                 lista = new listaProductos();
-                                localStorage.setItem("cVentas", parseInt(localStorage.getItem("cVentas"),10)+1);
                               }
                               localStorage.setItem("tablaHash", CircularJSON.stringify(tablaH)); 
                               alert("Fin de la carga")
