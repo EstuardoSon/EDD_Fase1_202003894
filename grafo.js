@@ -133,7 +133,7 @@ class Grafo{
         let inicio = this.buscarEnVertices(idInicio);
         listaCosto.insertarOrdenado(inicio.id, inicio.nombre, inicio.distancia, inicio.adyacentes, 0, contador);
         let aux = listaCosto.primero
-	    dot+=listaCosto.primero.ruta.identificador+' [label="'+listaCosto.primero.ruta.id+' '+listaCosto.primero.ruta.nombre+'"];\n'
+	    dot+=listaCosto.primero.ruta.identificador+' [label="'+listaCosto.primero.ruta.id+' '+listaCosto.primero.ruta.nombre+'" color="lime"];\n'
         contador += 1
         while(aux!= null){
             console.log(aux.ruta.identificador)
@@ -141,7 +141,7 @@ class Grafo{
             Visitados.push(nodoExtraido.id);
 
             if (nodoExtraido.id == idFinal){
-                dot+=aux.ruta.identificador+' [color="orange"]\n;';
+                dot+=aux.ruta.identificador+' [color="orange"];\n';
                 dot += '}';
                 return dot;
             }
@@ -151,9 +151,9 @@ class Grafo{
             while(adyacente != null){
                 if(Visitados.findIndex((element) => element == adyacente.ruta.id) == -1){
                     if (adyacente.ruta.id == idFinal){
-                        dot+=contador+' [label="'+adyacente.ruta.id+' '+adyacente.ruta.nombre+'"];\n'+aux.ruta.identificador+'--'+contador+' [label="'+adyacente.ruta.distancia+'"] ;\n'
+                        dot+=contador+' [label="'+adyacente.ruta.id+' '+adyacente.ruta.nombre+'"];\n'+aux.ruta.identificador+'->'+contador+' [label="'+adyacente.ruta.distancia+'" color="royalblue"] ;\n'
                     }else{
-                        dot+=contador+' [label="'+adyacente.ruta.id+' '+adyacente.ruta.nombre+'"];\n'+aux.ruta.identificador+'--'+contador+' [label="'+adyacente.ruta.distancia+'"] ;\n'
+                        dot+=contador+' [label="'+adyacente.ruta.id+' '+adyacente.ruta.nombre+'"];\n'+aux.ruta.identificador+'->'+contador+' [label="'+adyacente.ruta.distancia+'" color="royalblue"] ;\n'
                     }
                     listaCosto.insertarOrdenado(adyacente.ruta.id, adyacente.ruta.nombre, adyacente.ruta.distancia, this.buscarEnVertices(adyacente.ruta.id).adyacentes, (nodoExtraido.longitud + adyacente.ruta.distancia), contador);
                     contador += 1;
